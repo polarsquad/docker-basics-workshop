@@ -7,8 +7,8 @@ jobs:
   site:build:
     <<: *defaults
     steps:
-      - checkout
       - run: apk update && apk add make curl git
+      - checkout
       - run: git submodule update --init --recursive
 
       - run: make setup
@@ -17,8 +17,8 @@ jobs:
   site:publish:
     <<: *defaults
     steps:
-      - checkout
       - run: apk update && apk add make curl git openssh
+      - checkout
       - run: git submodule update --init --recursive
 
       - add_ssh_keys:
