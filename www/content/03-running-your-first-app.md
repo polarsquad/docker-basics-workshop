@@ -4,11 +4,12 @@ weight: 3
 menu: true
 ---
 
-In this section we will run some pre-existing Docker containers
+In this section, we will run some pre-existing Docker containers
 that are based on public Docker images hosted on [Docker Hub](https://hub.docker.com/).
 
 ## Hello World
 
+We can use `docker run` to run containers from Docker images.
 Let's start with a simple container:
 
     $ docker run hello-world
@@ -81,10 +82,13 @@ You should see NGINX write logs to the terminal where you launched NGINX:
     172.17.0.1 - - [01/Feb/2019:13:14:33 +0000] "GET / HTTP/1.1" 200 612 "-" "curl/7.59.0" "-"
 
 Containers can also be run detached from the terminal with the `-d` flag.
+Let's also give the container a name we can refer to later.
 Kill the container with Ctrl+C and run this command:
 
-    $ docker run -d -p 8080:80 nginx
+    $ docker run -d --name web -p 8080:80 nginx
+    624a8853afe59b69a7a4ba3f35fa274ba28247bd931cef1f505a9129aad8fa5b
 
+The printed ID is the container ID, which we will look into later.
 Check that the web server still responds:
 
     $ curl http://localhost:8080/
@@ -93,3 +97,8 @@ Check that the web server still responds:
     <head>
     <title>Welcome to nginx!</title>
     ...
+
+## Find and run a Docker image
+
+Spend some time browsing Docker images from [Docker Hub](https://hub.docker.com/),
+and try to get one running with your instructor's help.

@@ -21,11 +21,15 @@ The most up-to-date guides can be found from [Docker's documentation site](https
 
 ## Post-installation
 
-*Linux users:* Make sure you can run Docker commands without using `sudo`.
+You should now have `docker` command available in your terminal.
+This tool will be used extensively throughout this workshop.
+
+Make sure you can run `docker`:
 
     $ docker ps
 
-If the command fails, add yourself to the Docker group:
+*Linux users:* If the command fails because of permission issues,
+add yourself to the Docker group:
 
     $ sudo usermod -aG docker $(whoami)
 
