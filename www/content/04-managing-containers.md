@@ -120,7 +120,7 @@ After the container process stops,
 the container is still left around for further inspection.
 You can view the stopped containers using `docker ps -a`.
 
-To get rid of the stopped containers, you can use the `docker rm` command.
+To get rid of the stopped containers, you can use the `docker rm` or `docker container rm` command.
 
     $ docker rm web
 
@@ -130,7 +130,7 @@ you can add the `--rm` flag to `docker run`.
     $ docker run --rm --name web -p 8080:80 nginx
     $ docker stop web
 
-If you want to also get rid of the Docker image, you can run the `docker rmi` command.
+If you want to also get rid of the Docker image, you can run the `docker rmi` or `docker image rm` command.
 
     $ docker rmi nginx
 

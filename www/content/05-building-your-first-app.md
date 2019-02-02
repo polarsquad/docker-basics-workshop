@@ -28,7 +28,7 @@ def hello():
     return "Hello World!\n"
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=3000)
 ```
 
 If you have Python and [Flask](http://flask.pocoo.org/) installed,
@@ -40,7 +40,7 @@ you can try running the app with command `python app.py` in the app directory.
       WARNING: Do not use the development server in a production environment.
       Use a production WSGI server instead.
     * Debug mode: off
-    * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+    * Running on http://0.0.0.0:3000/ (Press CTRL+C to quit)
 
 Don't worry if it doesn't work just yet.
 
@@ -97,10 +97,10 @@ After the build, we should now have a Docker image named `myapp`.
     pyapp       latest     5ebae78df742     1 minute ago      455MB
 
 Let's smoke test it!
-The app opens port 5000, so we'll need to set a forwarding rule to that port.
+The app opens port 3000, so we'll need to set a forwarding rule to that port.
 
-    $ docker run -d --name myapp -p 5000:5000 myapp
-    $ curl http://localhost:5000/
+    $ docker run --rm -d --name myapp -p 3000:3000 myapp
+    $ curl http://localhost:3000/
     Hello World!
     $ docker stop myapp
 
