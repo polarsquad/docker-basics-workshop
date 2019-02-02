@@ -5,6 +5,7 @@ menu: true
 ---
 
 First, we'll need to set up an environment for Docker.
+
 This workshop requires you to install the latest version of the Docker Community Edition.
 
 ## Installation

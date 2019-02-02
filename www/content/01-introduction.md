@@ -7,7 +7,7 @@ menu: false
 The goal of this [Docker Basics workshop](https://polarsquad.github.io/docker-basics-workshop)
 is to teach reader basics of [Docker](https://docker.io/) and how you can use it to build applications.
 
-In this workshop, we'll cover the following:
+In this workshop, we'll cover the following topics:
 
 * Docker environment setup
 * Running and building your first Docker application

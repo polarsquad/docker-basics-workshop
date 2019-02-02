@@ -283,6 +283,8 @@ CMD ["python", "app.py"]
 COPY app.py .
 ```
 
+We can also set the user and group when run the container using `docker run` command's `-u` option.
+
 ## Experiment with your own Dockerfile
 
 Create your own Dockerfile or extend one of the Dockerfiles shown earlier.
