@@ -126,6 +126,7 @@ To get rid of the stopped containers, you can use the `docker rm` or `docker con
 
 If you want the container to be automatically removed after it has stopped,
 you can add the `--rm` flag to `docker run`.
+It's considered a good idea to use `--rm` by default.
 
     $ docker run --rm --name web -p 8080:80 nginx
     $ docker stop web

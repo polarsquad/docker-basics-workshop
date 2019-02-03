@@ -48,7 +48,7 @@ Now we can push the image.
     adcb570ae9ac: Pushed 
     latest: digest: sha256:dc97f7c1d2f642fdcc1ed89df29da3147c95acd37647ac0fc26556b862b665f9 size: 1984
 
-Let's see if we can pull the image from as well.
+Let's see if we can pull the image back from the registry.
 
     $ docker image rm localhost:5000/myapp
     $ docker image rm myapp
@@ -69,6 +69,7 @@ Let's see if we can pull the image from as well.
     REPOSITORY             TAG       IMAGE ID       CREATED          SIZE
     localhost:5000/myapp   latest    9415036e1386   39 minutes ago   131MB
 
-Brilliant! Let's clean up the resources.
+Brilliant! Let's re-tag the image to `myapp` and clean up the resources.
 
+    $ docker tag localhost:5000/myapp myapp
     $ docker stop registry
