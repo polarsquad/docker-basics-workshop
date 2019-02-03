@@ -1,5 +1,5 @@
 ---
-title: Docker Networking
+title: Docker networking
 weight: 8
 menu: true
 ---
