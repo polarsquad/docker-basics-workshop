@@ -16,7 +16,7 @@ First, create a directory for your app.
     $ mkdir ~/myapp
     $ cd ~/myapp
 
-Next, createa a Python file named `app.py` to the directory we just created,
+Next, create a Python file named `app.py` to the directory we just created,
 and write the following contents to it:
 
 ```python
@@ -104,7 +104,7 @@ The app opens port 3000, so we'll need to set a forwarding rule to that port.
     Hello World!
     $ docker stop myapp
 
-We now our very first Docker app ready! Awesome!
+We now have our very first Docker app ready! Awesome!
 
 ## Improving our Docker image
 
@@ -279,11 +279,12 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 RUN groupadd -g 999 appuser && \
     useradd -r -u 999 -g appuser appuser
+USER appuser:appuser
 CMD ["python", "app.py"]
 COPY app.py .
 ```
 
-We can also set the user and group when run the container using `docker run` command's `-u` option.
+We can also set the user and group when we run the container using `docker run` command's `-u` option.
 
 ## Experiment with your own Dockerfile
 

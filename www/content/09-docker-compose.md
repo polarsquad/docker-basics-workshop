@@ -69,6 +69,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 RUN groupadd -g 999 appuser && \
     useradd -r -u 999 -g appuser appuser
+USER appuser:appuser
 CMD ["python", "app.py"]
 COPY app.py .
 ```
@@ -161,7 +162,7 @@ In the script above, we insert a value using the app `/data` endpoint, read it b
 If the test fails, the script exits with an error code. Otherwise, the script will exit normally.
 Normally, you'd most likely want to use a proper test framework, but this should be enough for this exercise.
 
-Before, the test is executed, the script polls the server until it can contact it.
+Before the test is executed, the script polls the server until it can contact it.
 This is done to avoid race conditions because Docker Compose launches all the containers simultaneously.
 
 Now we need to have this script executed as part of the Docker Compose setup.

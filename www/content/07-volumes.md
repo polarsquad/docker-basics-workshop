@@ -25,7 +25,7 @@ Here we use the `-v` option to add a volume mount in format `host_path:container
 We'll use the directory we just created as the host path we want to mount,
 and `/usr/share/nginx/html` as the target path in the container.
 In this case, the target path is the place where NGINX serves static files from.
-Note that the host path must specified as an absolute path,
+Note that the host path must be specified as an absolute path,
 which is why the example uses the `$PWD` environment variable.
 
 Let's see if we can access the file we just created and mounted.
@@ -117,7 +117,7 @@ Great! Let's clean up the environment and delete the volume.
 
 A common use-case for containers and directory mounts is to build software and get the build artifacts.
 The reason for this is because containers can easily produce isolated and reproducible environments, and stay lightweight at the same time.
-This is be especially useful in Continuous Integration servers,
+This is especially useful in Continuous Integration servers,
 where concurrent build jobs may easily affect each other when there's no proper isolation in place.
 
 As an exercise, let's create a Docker image for building [a curl C++ example program](https://curl.haxx.se/libcurl/c/htmltitle.html).
