@@ -7,12 +7,12 @@ menu: true
 Now that we have our own Docker image, let's look into how we can share it.
 
 Docker images can be published to registries.
-Most common registry is Docker Hub, where you can host both public Docker images.
+Most common registry is Docker Hub, where you can host both public and private Docker images.
 You can also get private Docker registries from providers such as AWS, Azure, and Google Cloud,
 or host your own registry.
 
 The registry name is part of the Docker name.
-For example, if we hosted had our own private registry in address `registry.example.com`,
+For example, if we hosted our own private registry in address `registry.example.com`,
 then our Docker images in that address would have names such as
 `registry.example.com/myapp`, `registry.example.com/myapp2`, `registry.example.com/myorg/myapp` etc.
 
