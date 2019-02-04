@@ -76,7 +76,7 @@ COPY app.py .
 
 Now that we have our app source code updated,
 we can create a Docker Compose file that runs both Redis and our app simultaneously in one script.
-Create a file named `docker-compose.yml` next to the Dockerfile, and insert the following contents:
+Create a file named `docker-compose.yml` next to the Dockerfile, and insert the following contents.
 
 ```yaml
 version: '3'

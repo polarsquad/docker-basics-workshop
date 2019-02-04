@@ -129,7 +129,7 @@ First, we should create a directory for the example and download the source code
     $ cd ~/curl-example
     ~/curl-example $ curl -sfLO https://github.com/curl/curl/raw/master/docs/examples/htmltitle.cpp
 
-Let's also create a simple build script and name it `build.sh`:
+Let's also create a simple build script and name it `build.sh`.
 
 ```bash
 #!/usr/bin/env bash

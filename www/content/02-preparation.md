@@ -14,7 +14,7 @@ The most up-to-date guides can be found from [Docker's documentation site](https
 
 * If you use a Mac, install [Docker for Mac](https://docs.docker.com/docker-for-mac/install/).
 * If you use Windows, install [Docker for Windows](https://docs.docker.com/docker-for-windows/install/).
-* If you use Linux, select the guide for your distribution:
+* If you use Linux, select the guide for your distribution.
   * [Ubuntu](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
   * [Debian](https://docs.docker.com/install/linux/docker-ce/debian/)
   * [Fedora](https://docs.docker.com/install/linux/docker-ce/fedora/)
@@ -25,12 +25,12 @@ The most up-to-date guides can be found from [Docker's documentation site](https
 You should now have `docker` command available in your terminal.
 This tool will be used extensively throughout this workshop.
 
-Make sure you can run `docker`:
+Make sure you can run `docker`.
 
     $ docker ps
 
 *Linux users:* If the command fails because of permission issues,
-add yourself to the Docker group:
+add yourself to the Docker group.
 
     $ sudo usermod -aG docker $(whoami)
 

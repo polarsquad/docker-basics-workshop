@@ -9,7 +9,7 @@ In this section, we'll look into a few ways we can examine and manage Docker con
 
 ## Listing containers
 
-There are two ways to list currently running containers.
+There are two ways to list the currently running containers.
 One is to use `docker container ls` and the other `docker ps`.
 Both commands produce the same output.
 
@@ -20,7 +20,7 @@ Both commands produce the same output.
 If you still have your web server from the previous exercise running,
 you should see it listed.
 
-You can also list all past containers with the help of the `-a` flag:
+You can also list all past containers with the help of the `-a` flag.
 
     $ docker ps -a
     CONTAINER ID    IMAGE           COMMAND                  CREATED          STATUS                     PORTS                  NAMES
@@ -36,11 +36,11 @@ Both of them are automatically generated for us, but we can also set the name as
 
 When we ran the NGINX container in foreground earlier,
 we could see the logs printed on the terminal directly.
-Now that it's running in the background,
-we need another way to view them.
+Now that NGINX is running in the background,
+we need another way to view the logs.
 
 This is where the `docker logs` command comes in handy.
-We can use container name we defined earlier or the container ID to get logs from the web server:
+We can use container name we defined earlier or the container ID to get logs from the web server.
 
     $ docker logs web
     172.17.0.1 - - [01/Feb/2019:13:12:58 +0000] "GET / HTTP/1.1" 200 612 "-" "Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:64.0) Gecko/20100101 Firefox/64.0" "-"
@@ -49,14 +49,16 @@ We can use container name we defined earlier or the container ID to get logs fro
     172.17.0.1 - - [01/Feb/2019:13:12:58 +0000] "GET / HTTP/1.1" 200 612 "-" "Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:64.0) Gecko/20100101 Firefox/64.0" "-"
     ...
 
-You can also follow the flow of logs with the help of the `-f` flag:
+You can also follow the flow of logs with the help of the `-f` flag.
 
     $ docker logs -f web
+
+Use Ctrl+C to exit the log follow command.
 
 ## Examining container processes
 
 We can use the `docker top` command to examine the processes running inside a container.
-Let's see what the NGINX container is running:
+Let's see what's running in the NGINX container.
 
     $ docker top web
     UID     PID      PPID     C     STIME     TTY    TIME       CMD
@@ -85,7 +87,7 @@ we can use `docker exec` with simple `cat` and a path to the config file.
 
     ...
 
-We can also combine `docker exec` with the `-it` flags we used earlier to get an interactive shell inside the container:
+We can also combine `docker exec` with the `-it` flags we used earlier to get an interactive shell inside the container.
 
     $ docker exec -it web bash
     root@1aabce753f41:/# ls
@@ -135,7 +137,7 @@ If you want to also get rid of the Docker image, you can run the `docker rmi` or
 
     $ docker rmi nginx
 
-To automatically get rid of unused containers and images, you can use the following commands:
+To automatically get rid of unused containers and images, you can use the following commands.
 
     $ docker container prune
     $ docker image prune

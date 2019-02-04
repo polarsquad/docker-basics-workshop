@@ -7,7 +7,7 @@ menu: true
 So far we've used port forwarding to access containerized services.
 In this section, we'll briefly look into Docker's various networking models.
 
-Docker includes following network drivers:
+Docker includes following network drivers.
 
 * `bridge`: network bridged with the host machine
 * `host`: connect container directly to the host network interface

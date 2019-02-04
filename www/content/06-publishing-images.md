@@ -17,7 +17,7 @@ then our Docker images in that address would have names such as
 `registry.example.com/myapp`, `registry.example.com/myapp2`, `registry.example.com/myorg/myapp` etc.
 
 Docker Hub hosted images hide the registry name from the image name.
-Their actual names would be like this:
+Their actual names would be like this.
 
 * `ubuntu` is `registry.hub.docker.com/_/ubuntu`
 * `nginx` is `registry.hub.docker.com/_/nginx`

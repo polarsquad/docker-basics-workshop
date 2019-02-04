@@ -17,7 +17,7 @@ First, create a directory for your app.
     $ cd ~/myapp
 
 Next, create a Python file named `app.py` to the directory we just created,
-and write the following contents to it:
+and write the following contents to it.
 
 ```python
 from flask import Flask
@@ -51,7 +51,7 @@ we can package it into a Docker image.
 For that, we need to write a Dockerfile.
 
 Create a file named `Dockerfile` in the directory we created earlier.
-In that, add the following contents:
+In that file, add the following contents.
 
 ```Dockerfile
 FROM ubuntu:18.04
@@ -66,7 +66,7 @@ CMD ["python", "app.py"]
 Each line in this file is an instruction for Docker image builder.
 The first word of the line is a command,
 and the rest of the words are parameters for that command.
-Here's what they do:
+Here's what they do.
 
 * `FROM` describes the image to build our image on.
   In this case, we're going to use a plain Ubuntu image as the base image.
@@ -238,7 +238,7 @@ or [Alpine](https://hub.docker.com/_/alpine).
 There's also [a pre-made image for Python](https://hub.docker.com/_/python),
 which includes Python and some Python related tools like PIP pre-installed.
 
-Here's a Dockerfile that's based on Alpine:
+Here's a Dockerfile that's based on Alpine.
 
 ```Dockerfile
 FROM alpine
@@ -286,6 +286,6 @@ COPY app.py .
 
 We can also set the user and group when we run the container using `docker run` command's `-u` option.
 
-## Experiment with your own Dockerfile
+## Freestyle: Experiment with your own Dockerfile
 
 Create your own Dockerfile or extend one of the Dockerfiles shown earlier.
