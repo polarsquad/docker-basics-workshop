@@ -139,6 +139,10 @@ g++ -Wall \
     $(pkg-config --libs libxml-2.0) $(pkg-config --libs libcurl)
 ```
 
+Make sure the script is executable:
+
+    ~/curl-example $ chmod +x build.sh
+
 Next, we need a Dockerfile for the builder image.
 The image will contain the build tools and libraries we need.
 By default, the builder will run the build script from the `/var/build` directory.

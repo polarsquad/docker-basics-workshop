@@ -158,6 +158,10 @@ else
 fi
 ```
 
+Make sure the script is executable:
+
+    ~/myapp $ chmod +x integration_test.sh
+
 In the script above, we insert a value using the app `/data` endpoint, read it back, and verify that what we read is what we wrote.
 If the test fails, the script exits with an error code. Otherwise, the script will exit normally.
 Normally, you'd most likely want to use a proper test framework, but this should be enough for this exercise.
@@ -203,8 +207,8 @@ which we can use to determine whether the test was successful or not.
 
 Let's run the test Docker Compose script in combination with the existing Docker Compose script.
 
-    $ docker-compose -f docker-compose.yml -f docker-compose-test.yml up --abort-container-exit
-    $ echo #?
+    $ docker-compose -f docker-compose.yml -f docker-compose-test.yml up --abort-on-container-exit
+    $ echo $?
     0
 
 If the test succeeded, the exit code should be `0`.
