@@ -1,7 +1,8 @@
 
 # Install all the build dependencies
 setup:
-	curl -sfL https://install.goreleaser.com/github.com/gohugoio/hugo.sh | sh
+	curl -sfL https://install.goreleaser.com/github.com/gohugoio/hugo.sh | sh; \
+	git submodule update --init --recursive
 .PHONY: setup
 
 # Generate the static documentation
