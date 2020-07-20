@@ -1,0 +1,158 @@
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<title>Preparation &middot; Docker Basics Workshop</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	
+	
+	
+	<meta http-equiv="content-language" content="en-us" />
+	<meta name="generator" content="Hugo 0.74.2" />
+	<link rel="stylesheet" href="https://polarsquad.github.io/docker-basics-workshop/css/index.css">
+	<link rel="apple-touch-icon" href="https://polarsquad.github.io/docker-basics-workshop/apple-touch-icon.png">
+	<link rel="shortcut icon" href="https://polarsquad.github.io/docker-basics-workshop/favicon.ico" type="image/x-icon">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
+	 crossorigin="anonymous">
+</head>
+	<body>
+		<div class="Wrapper">
+			<div class="Container">
+				<div class="Header">
+  <a href="https://polarsquad.github.io/docker-basics-workshop/">
+	<div class="Title center">
+		
+			<img alt="Docker Basics Workshop Logo" src="https://polarsquad.github.io/docker-basics-workshop/290x132_PolarSquad_logo.png" height="140" />
+		
+		<span class="text">Docker Basics Workshop</span>
+		<span class="subtext"></span>
+	</div>
+  </a>
+</div>
+
+				<div class="Content-wrapper">
+					<div class="Sidebar">
+	<div class="Menu">
+		<div class="item">
+			<a href="https://polarsquad.github.io/docker-basics-workshop/">Home</a>
+		</div>
+		
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/02-preparation/">Preparation</a>
+				</div>
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/03-running-your-first-app/">Running your first Docker app</a>
+				</div>
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/04-managing-containers/">Managing Docker containers</a>
+				</div>
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/05-building-your-first-app/">Building your first Docker app</a>
+				</div>
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/06-publishing-images/">Publishing a Docker image</a>
+				</div>
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/07-volumes/">Mounting files</a>
+				</div>
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/08-docker-networking/">Docker networking</a>
+				</div>
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/09-docker-compose/">Docker Compose</a>
+				</div>
+			
+		
+			
+		
+			
+		
+			
+		
+	</div>
+</div>
+
+					<div class="Content">
+						
+	<div class="Page" id="">
+		<h1>Preparation</h1>
+		<p>First, we&rsquo;ll need to set up an environment for Docker.</p>
+<p>This workshop requires you to install the latest version of the Docker Community Edition.</p>
+<h2 id="installation">Installation</h2>
+<p>The most up-to-date guides can be found from <a href="https://docs.docker.com/install/">Docker&rsquo;s documentation site</a>.</p>
+<ul>
+<li>If you use a Mac, install <a href="https://docs.docker.com/docker-for-mac/install/">Docker for Mac</a>.</li>
+<li>If you use Windows, install <a href="https://docs.docker.com/docker-for-windows/install/">Docker for Windows</a>.</li>
+<li>If you use Linux, select the guide for your distribution.
+<ul>
+<li><a href="https://docs.docker.com/install/linux/docker-ce/ubuntu/">Ubuntu</a></li>
+<li><a href="https://docs.docker.com/install/linux/docker-ce/debian/">Debian</a></li>
+<li><a href="https://docs.docker.com/install/linux/docker-ce/fedora/">Fedora</a></li>
+<li><a href="https://docs.docker.com/install/linux/docker-ce/centos/">CentOS</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="post-installation">Post-installation</h2>
+<p>You should now have <code>docker</code> command available in your terminal.
+This tool will be used extensively throughout this workshop.</p>
+<p>Make sure you can run <code>docker</code>.</p>
+<pre><code>$ docker ps
+</code></pre>
+<p><em>Linux users:</em> If the command fails because of permission issues,
+add yourself to the Docker group.</p>
+<pre><code>$ sudo usermod -aG docker $(whoami)
+</code></pre>
+<p>Now re-open your terminal, and try <code>docker ps</code> again.
+If it still doesn&rsquo;t work, logout and log back into desktop.
+If it still doesn&rsquo;t work, consult with the presenter to fix the problem.</p>
+</div>
+
+						<div class="Footer">
+	<p>Made with ❤️ for Developers by Polar Squad. Content on this site is licensed under a Creative Commons license</p>
+</div>
+<script src="https://polarsquad.github.io/docker-basics-workshop/js/index.js"></script>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-xxxx-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+					</div>
+				</div>
+		</div>
+	</body>
+</html>

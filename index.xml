@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Docker Basics Workshop</title>
+    <link>https://polarsquad.github.io/docker-basics-workshop/</link>
+    <description>Recent content on Docker Basics Workshop</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Made with ❤️ for Developers by Polar Squad. Content on this site is licensed under a Creative Commons license</copyright>
+    
+	<atom:link href="https://polarsquad.github.io/docker-basics-workshop/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Introduction</title>
+      <link>https://polarsquad.github.io/docker-basics-workshop/01-introduction/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://polarsquad.github.io/docker-basics-workshop/01-introduction/</guid>
+      <description>The goal of this Docker Basics workshop is to teach reader basics of Docker and how you can use it to build applications.
+In this workshop, we&amp;rsquo;ll cover the following topics:
+ Docker environment setup Running and building your first Docker application Managing and examining Docker containers Publishing a Docker image Docker volume management Networking between Docker containers Running a fleet of containers with Docker Compose  </description>
+    </item>
+    
+    <item>
+      <title>Preparation</title>
+      <link>https://polarsquad.github.io/docker-basics-workshop/02-preparation/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://polarsquad.github.io/docker-basics-workshop/02-preparation/</guid>
+      <description>First, we&amp;rsquo;ll need to set up an environment for Docker.
+This workshop requires you to install the latest version of the Docker Community Edition.
+Installation The most up-to-date guides can be found from Docker&amp;rsquo;s documentation site.
+ If you use a Mac, install Docker for Mac. If you use Windows, install Docker for Windows. If you use Linux, select the guide for your distribution.  Ubuntu Debian Fedora CentOS    Post-installation You should now have docker command available in your terminal.</description>
+    </item>
+    
+    <item>
+      <title>Running your first Docker app</title>
+      <link>https://polarsquad.github.io/docker-basics-workshop/03-running-your-first-app/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://polarsquad.github.io/docker-basics-workshop/03-running-your-first-app/</guid>
+      <description>In this section, we will run some pre-existing Docker containers that are based on public Docker images hosted on Docker Hub.
+Hello World We can use docker run to run containers from Docker images. Let&amp;rsquo;s start with a simple &amp;ldquo;hello world&amp;rdquo; container.
+$ docker run hello-world Unable to find image &#39;hello-world:latest&#39; locally latest: Pulling from library/hello-world 1b930d010525: Pull complete Digest: sha256:2557e3c07ed1e38f26e389462d03ed943586f744621577a99efb77324b0fe535 Status: Downloaded newer image for hello-world:latest Hello from Docker! This message shows that your installation appears to be working correctly.</description>
+    </item>
+    
+    <item>
+      <title>Managing Docker containers</title>
+      <link>https://polarsquad.github.io/docker-basics-workshop/04-managing-containers/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://polarsquad.github.io/docker-basics-workshop/04-managing-containers/</guid>
+      <description>Usually we want some feedback on how our containers are doing. In this section, we&amp;rsquo;ll look into a few ways we can examine and manage Docker containers.
+Listing containers There are two ways to list the currently running containers. One is to use docker container ls and the other docker ps. Both commands produce the same output.
+$ docker ps CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES 624a8853afe5 nginx &amp;quot;nginx -g &#39;daemon of…&amp;quot; 3 seconds ago Up 2 seconds 0.</description>
+    </item>
+    
+    <item>
+      <title>Building your first Docker app</title>
+      <link>https://polarsquad.github.io/docker-basics-workshop/05-building-your-first-app/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://polarsquad.github.io/docker-basics-workshop/05-building-your-first-app/</guid>
+      <description>Having the capability to leverage pre-existing Docker images is awesome, but often we want to create our own Docker images. In this section, we&amp;rsquo;ll create our own Docker application.
+Web application example Let&amp;rsquo;s prepare a simple Python web application for containerization. First, create a directory for your app.
+$ mkdir ~/myapp $ cd ~/myapp  Next, create a Python file named app.py to the directory we just created, and write the following contents to it.</description>
+    </item>
+    
+    <item>
+      <title>Publishing a Docker image</title>
+      <link>https://polarsquad.github.io/docker-basics-workshop/06-publishing-images/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://polarsquad.github.io/docker-basics-workshop/06-publishing-images/</guid>
+      <description>Now that we have our own Docker image, let&amp;rsquo;s look into how we can share it.
+Docker images can be published to registries. Most common registry is Docker Hub, where you can host both public and private Docker images. You can also get private Docker registries from providers such as AWS, Azure, and Google Cloud, or host your own registry.
+The registry name is part of the Docker name. For example, if we hosted our own private registry in address registry.</description>
+    </item>
+    
+    <item>
+      <title>Mounting files</title>
+      <link>https://polarsquad.github.io/docker-basics-workshop/07-volumes/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://polarsquad.github.io/docker-basics-workshop/07-volumes/</guid>
+      <description>So far all our files are built into the images. Let&amp;rsquo;s see how we can mount files to containers from the host system, and what we can do with them.
+Static web pages for our web server Docker can mount files from anywhere in the host system to the container.
+Let&amp;rsquo;s create some custom content for the NGINX web server we ran earlier.
+$ mkdir web $ echo &amp;quot;Hello world!&amp;quot; &amp;gt; web/hello.</description>
+    </item>
+    
+    <item>
+      <title>Docker networking</title>
+      <link>https://polarsquad.github.io/docker-basics-workshop/08-docker-networking/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://polarsquad.github.io/docker-basics-workshop/08-docker-networking/</guid>
+      <description>So far we&amp;rsquo;ve used port forwarding to access containerized services. In this section, we&amp;rsquo;ll briefly look into Docker&amp;rsquo;s various networking models.
+Docker includes following network drivers.
+ bridge: network bridged with the host machine host: connect container directly to the host network interface overlay: a network that spans over multiple Docker hosts macvlan: assign MAC addresses to containers, making them part of the network your host is connected to none: disable all container networking  It&amp;rsquo;s also possible to install a custom network plugin to manage container networking.</description>
+    </item>
+    
+    <item>
+      <title>Docker Compose</title>
+      <link>https://polarsquad.github.io/docker-basics-workshop/09-docker-compose/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://polarsquad.github.io/docker-basics-workshop/09-docker-compose/</guid>
+      <description>With Docker CLI, we can launch invididual containers. In this section, we&amp;rsquo;ll cover a few examples on how to launch a fleet of containers using Docker Compose.
+Docker Compose is a tool for defining and running multiple containers. The containers are configured with YAML formatted files, and launched with the docker-compose command.
+Web app with a database A common use-case for Docker Compose is to use for configuring and launching a quick environment for testing an application you are developing.</description>
+    </item>
+    
+  </channel>
+</rss>

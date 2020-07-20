@@ -1,0 +1,238 @@
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<title>Managing Docker containers &middot; Docker Basics Workshop</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	
+	
+	
+	<meta http-equiv="content-language" content="en-us" />
+	<meta name="generator" content="Hugo 0.74.2" />
+	<link rel="stylesheet" href="https://polarsquad.github.io/docker-basics-workshop/css/index.css">
+	<link rel="apple-touch-icon" href="https://polarsquad.github.io/docker-basics-workshop/apple-touch-icon.png">
+	<link rel="shortcut icon" href="https://polarsquad.github.io/docker-basics-workshop/favicon.ico" type="image/x-icon">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
+	 crossorigin="anonymous">
+</head>
+	<body>
+		<div class="Wrapper">
+			<div class="Container">
+				<div class="Header">
+  <a href="https://polarsquad.github.io/docker-basics-workshop/">
+	<div class="Title center">
+		
+			<img alt="Docker Basics Workshop Logo" src="https://polarsquad.github.io/docker-basics-workshop/290x132_PolarSquad_logo.png" height="140" />
+		
+		<span class="text">Docker Basics Workshop</span>
+		<span class="subtext"></span>
+	</div>
+  </a>
+</div>
+
+				<div class="Content-wrapper">
+					<div class="Sidebar">
+	<div class="Menu">
+		<div class="item">
+			<a href="https://polarsquad.github.io/docker-basics-workshop/">Home</a>
+		</div>
+		
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/02-preparation/">Preparation</a>
+				</div>
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/03-running-your-first-app/">Running your first Docker app</a>
+				</div>
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/04-managing-containers/">Managing Docker containers</a>
+				</div>
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/05-building-your-first-app/">Building your first Docker app</a>
+				</div>
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/06-publishing-images/">Publishing a Docker image</a>
+				</div>
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/07-volumes/">Mounting files</a>
+				</div>
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/08-docker-networking/">Docker networking</a>
+				</div>
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/09-docker-compose/">Docker Compose</a>
+				</div>
+			
+		
+			
+		
+			
+		
+			
+		
+	</div>
+</div>
+
+					<div class="Content">
+						
+	<div class="Page" id="">
+		<h1>Managing Docker containers</h1>
+		<p>Usually we want some feedback on how our containers are doing.
+In this section, we&rsquo;ll look into a few ways we can examine and manage Docker containers.</p>
+<h2 id="listing-containers">Listing containers</h2>
+<p>There are two ways to list the currently running containers.
+One is to use <code>docker container ls</code> and the other <code>docker ps</code>.
+Both commands produce the same output.</p>
+<pre><code>$ docker ps
+CONTAINER ID    IMAGE    COMMAND                  CREATED         STATUS          PORTS                  NAMES
+624a8853afe5    nginx    &quot;nginx -g 'daemon of…&quot;   3 seconds ago   Up 2 seconds    0.0.0.0:8080-&gt;80/tcp   web
+</code></pre>
+<p>If you still have your web server from the previous exercise running,
+you should see it listed.</p>
+<p>You can also list all past containers with the help of the <code>-a</code> flag.</p>
+<pre><code>$ docker ps -a
+CONTAINER ID    IMAGE           COMMAND                  CREATED          STATUS                     PORTS                  NAMES
+624a8853afe5    nginx           &quot;nginx -g 'daemon of…&quot;   2 minutes ago    Up 2 minutes               0.0.0.0:8080-&gt;80/tcp   web
+ee73eeb1a2e3    nginx           &quot;nginx -g 'daemon of…&quot;   3 minutes ago    Exited (0) 2 minutes ago                          festive_mestorf
+8c6a15958a2e    ubuntu:18.04    &quot;uname -a&quot;               5 minutes ago    Exited (0) 5 minutes ago                          jovial_sinoussi
+4cbcaffa8ca5    hello-world     &quot;/hello&quot;                 6 minutes ago    Exited (0) 6 minutes ago                          suspicious_pascal
+</code></pre>
+<p>We can later use the container IDs and names to refer to these containers for further operations.
+Both of them are automatically generated for us, but we can also set the name as done in the earlier exercise.</p>
+<h2 id="printing-logs">Printing logs</h2>
+<p>When we ran the NGINX container in foreground earlier,
+we could see the logs printed on the terminal directly.
+Now that NGINX is running in the background,
+we need another way to view the logs.</p>
+<p>This is where the <code>docker logs</code> command comes in handy.
+We can use container name we defined earlier or the container ID to get logs from the web server.</p>
+<pre><code>$ docker logs web
+172.17.0.1 - - [01/Feb/2019:13:12:58 +0000] &quot;GET / HTTP/1.1&quot; 200 612 &quot;-&quot; &quot;Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:64.0) Gecko/20100101 Firefox/64.0&quot; &quot;-&quot;
+...
+$ docker logs 624a8853afe5
+172.17.0.1 - - [01/Feb/2019:13:12:58 +0000] &quot;GET / HTTP/1.1&quot; 200 612 &quot;-&quot; &quot;Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:64.0) Gecko/20100101 Firefox/64.0&quot; &quot;-&quot;
+...
+</code></pre>
+<p>You can also follow the flow of logs with the help of the <code>-f</code> flag.</p>
+<pre><code>$ docker logs -f web
+</code></pre>
+<p>Use Ctrl+C to exit the log follow command.</p>
+<h2 id="examining-container-processes">Examining container processes</h2>
+<p>We can use the <code>docker top</code> command to examine the processes running inside a container.
+Let&rsquo;s see what&rsquo;s running in the NGINX container.</p>
+<pre><code>$ docker top web
+UID     PID      PPID     C     STIME     TTY    TIME       CMD
+root    32541    32524    0     20:00     ?      00:00:00   nginx: master process nginx -g daemon off;
+101     32583    32541    0     20:00     ?      00:00:00   nginx: worker process
+</code></pre>
+<p>The <code>docker top</code> command accepts Linux <code>ps</code> command parameters,
+which you can use to tune the <code>top</code> output.
+See <code>man ps</code> for more <code>ps</code> options.</p>
+<h2 id="executing-commands-on-containers">Executing commands on containers</h2>
+<p>Sometimes we may want to inspect the container by running arbitrary commands inside it.
+We can use <code>docker exec</code> for that.</p>
+<p>For example, if we want to check the configuration used in the NGINX container,
+we can use <code>docker exec</code> with simple <code>cat</code> and a path to the config file.</p>
+<pre><code>$ docker exec web cat /etc/nginx/nginx.conf
+
+user  nginx;
+worker_processes  1;
+
+error_log  /var/log/nginx/error.log warn;
+pid        /var/run/nginx.pid;
+
+...
+</code></pre>
+<p>We can also combine <code>docker exec</code> with the <code>-it</code> flags we used earlier to get an interactive shell inside the container.</p>
+<pre><code>$ docker exec -it web bash
+root@1aabce753f41:/# ls
+bin  boot  dev	etc  home  lib	lib64  media  mnt  opt	proc  root  run  sbin  srv  sys  tmp  usr  var
+root@1aabce753f41:/#
+</code></pre>
+<h2 id="stopping-a-container">Stopping a container</h2>
+<p>Once we are done with the container, we can stop it with <code>docker stop</code>.</p>
+<pre><code>$ docker stop web
+</code></pre>
+<p>If the container is stuck, we can also stop it by force using <code>docker kill</code>.</p>
+<pre><code>$ docker kill web
+</code></pre>
+<h2 id="listing-images">Listing images</h2>
+<p>Containers are created from Docker images.
+The appropriate images are automatically downloaded when you run a container.
+You can list the downloaded images with <code>docker images</code> or <code>docker image ls</code>.</p>
+<pre><code>$ docker images
+REPOSITORY      TAG        IMAGE ID         CREATED        SIZE
+nginx           latest     42b4762643dc     1 hour ago     109MB
+ubuntu          18.04      20bb25d32758     1 hour ago     87.5MB
+hello-world     latest     fce289e99eb9     1 hour ago     1.84kB
+</code></pre>
+<h2 id="cleaning-your-docker-environment">Cleaning your Docker environment</h2>
+<p>After the container process stops,
+the container is still left around for further inspection.
+You can view the stopped containers using <code>docker ps -a</code>.</p>
+<p>To get rid of the stopped containers, you can use the <code>docker rm</code> or <code>docker container rm</code> command.</p>
+<pre><code>$ docker rm web
+</code></pre>
+<p>If you want the container to be automatically removed after it has stopped,
+you can add the <code>--rm</code> flag to <code>docker run</code>.
+It&rsquo;s considered a good idea to use <code>--rm</code> by default.</p>
+<pre><code>$ docker run --rm --name web -p 8080:80 nginx
+$ docker stop web
+</code></pre>
+<p>If you want to also get rid of the Docker image, you can run the <code>docker rmi</code> or <code>docker image rm</code> command.</p>
+<pre><code>$ docker rmi nginx
+</code></pre>
+<p>To automatically get rid of unused containers and images, you can use the following commands.</p>
+<pre><code>$ docker container prune
+$ docker image prune
+</code></pre>
+</div>
+
+						<div class="Footer">
+	<p>Made with ❤️ for Developers by Polar Squad. Content on this site is licensed under a Creative Commons license</p>
+</div>
+<script src="https://polarsquad.github.io/docker-basics-workshop/js/index.js"></script>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-xxxx-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+					</div>
+				</div>
+		</div>
+	</body>
+</html>

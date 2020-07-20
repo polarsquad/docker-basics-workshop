@@ -1,0 +1,1103 @@
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<title>Docker Basics Workshop</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	
+	
+	
+	<meta http-equiv="content-language" content="en-us" />
+	<meta name="generator" content="Hugo 0.74.2" />
+	<link rel="stylesheet" href="https://polarsquad.github.io/docker-basics-workshop/css/index.css">
+	<link rel="apple-touch-icon" href="https://polarsquad.github.io/docker-basics-workshop/apple-touch-icon.png">
+	<link rel="shortcut icon" href="https://polarsquad.github.io/docker-basics-workshop/favicon.ico" type="image/x-icon">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
+	 crossorigin="anonymous">
+</head>
+	<body>
+		<div class="Wrapper">
+			<div class="Container">
+				<div class="Header">
+  <a href="https://polarsquad.github.io/docker-basics-workshop/">
+	<div class="Title center">
+		
+			<img alt="Docker Basics Workshop Logo" src="https://polarsquad.github.io/docker-basics-workshop/290x132_PolarSquad_logo.png" height="140" />
+		
+		<span class="text">Docker Basics Workshop</span>
+		<span class="subtext"></span>
+	</div>
+  </a>
+</div>
+
+				<div class="Content-wrapper">
+					<div class="Sidebar">
+	<div class="Menu">
+		<div class="item">
+			<a href="https://polarsquad.github.io/docker-basics-workshop/">Home</a>
+		</div>
+		
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/02-preparation/">Preparation</a>
+				</div>
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/03-running-your-first-app/">Running your first Docker app</a>
+				</div>
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/04-managing-containers/">Managing Docker containers</a>
+				</div>
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/05-building-your-first-app/">Building your first Docker app</a>
+				</div>
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/06-publishing-images/">Publishing a Docker image</a>
+				</div>
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/07-volumes/">Mounting files</a>
+				</div>
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/08-docker-networking/">Docker networking</a>
+				</div>
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/09-docker-compose/">Docker Compose</a>
+				</div>
+			
+		
+			
+		
+			
+		
+			
+		
+	</div>
+</div>
+
+					<div class="Content">
+						
+	
+	
+		
+			<div class="Page" id="Introduction">
+				<h1><a href="https://polarsquad.github.io/docker-basics-workshop/01-introduction/">Introduction</a></h1>
+				<p>The goal of this <a href="https://polarsquad.github.io/docker-basics-workshop">Docker Basics workshop</a>
+is to teach reader basics of <a href="https://docker.io/">Docker</a> and how you can use it to build applications.</p>
+<p>In this workshop, we&rsquo;ll cover the following topics:</p>
+<ul>
+<li>Docker environment setup</li>
+<li>Running and building your first Docker application</li>
+<li>Managing and examining Docker containers</li>
+<li>Publishing a Docker image</li>
+<li>Docker volume management</li>
+<li>Networking between Docker containers</li>
+<li>Running a fleet of containers with Docker Compose</li>
+</ul>
+
+		</div>
+		
+	
+		
+			<div class="Page" id="Preparation">
+				<h1><a href="https://polarsquad.github.io/docker-basics-workshop/02-preparation/">Preparation</a></h1>
+				<p>First, we&rsquo;ll need to set up an environment for Docker.</p>
+<p>This workshop requires you to install the latest version of the Docker Community Edition.</p>
+<h2 id="installation">Installation</h2>
+<p>The most up-to-date guides can be found from <a href="https://docs.docker.com/install/">Docker&rsquo;s documentation site</a>.</p>
+<ul>
+<li>If you use a Mac, install <a href="https://docs.docker.com/docker-for-mac/install/">Docker for Mac</a>.</li>
+<li>If you use Windows, install <a href="https://docs.docker.com/docker-for-windows/install/">Docker for Windows</a>.</li>
+<li>If you use Linux, select the guide for your distribution.
+<ul>
+<li><a href="https://docs.docker.com/install/linux/docker-ce/ubuntu/">Ubuntu</a></li>
+<li><a href="https://docs.docker.com/install/linux/docker-ce/debian/">Debian</a></li>
+<li><a href="https://docs.docker.com/install/linux/docker-ce/fedora/">Fedora</a></li>
+<li><a href="https://docs.docker.com/install/linux/docker-ce/centos/">CentOS</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="post-installation">Post-installation</h2>
+<p>You should now have <code>docker</code> command available in your terminal.
+This tool will be used extensively throughout this workshop.</p>
+<p>Make sure you can run <code>docker</code>.</p>
+<pre><code>$ docker ps
+</code></pre>
+<p><em>Linux users:</em> If the command fails because of permission issues,
+add yourself to the Docker group.</p>
+<pre><code>$ sudo usermod -aG docker $(whoami)
+</code></pre>
+<p>Now re-open your terminal, and try <code>docker ps</code> again.
+If it still doesn&rsquo;t work, logout and log back into desktop.
+If it still doesn&rsquo;t work, consult with the presenter to fix the problem.</p>
+
+		</div>
+		
+	
+		
+			<div class="Page" id="Running your first Docker app">
+				<h1><a href="https://polarsquad.github.io/docker-basics-workshop/03-running-your-first-app/">Running your first Docker app</a></h1>
+				<p>In this section, we will run some pre-existing Docker containers
+that are based on public Docker images hosted on <a href="https://hub.docker.com/">Docker Hub</a>.</p>
+<h2 id="hello-world">Hello World</h2>
+<p>We can use <code>docker run</code> to run containers from Docker images.
+Let&rsquo;s start with a simple &ldquo;hello world&rdquo; container.</p>
+<pre><code>$ docker run hello-world
+Unable to find image 'hello-world:latest' locally
+latest: Pulling from library/hello-world
+1b930d010525: Pull complete 
+Digest: sha256:2557e3c07ed1e38f26e389462d03ed943586f744621577a99efb77324b0fe535
+Status: Downloaded newer image for hello-world:latest
+
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+
+To generate this message, Docker took the following steps:
+1. The Docker client contacted the Docker daemon.
+2. The Docker daemon pulled the &quot;hello-world&quot; image from the Docker Hub.
+    (amd64)
+3. The Docker daemon created a new container from that image which runs the
+    executable that produces the output you are currently reading.
+4. The Docker daemon streamed that output to the Docker client, which sent it
+    to your terminal.
+
+To try something more ambitious, you can run an Ubuntu container with:
+$ docker run -it ubuntu bash
+
+Share images, automate workflows, and more with a free Docker ID:
+https://hub.docker.com/
+
+For more examples and ideas, visit:
+https://docs.docker.com/get-started/
+</code></pre>
+<p>Images for containers are automatically pulled, if they don&rsquo;t exist locally.</p>
+<h2 id="ubuntu-in-docker">Ubuntu in Docker</h2>
+<p>We can run Ubuntu in a container.</p>
+<pre><code>$ docker run ubuntu:18.04 uname -a
+Linux 4dd6fed5a8a9 4.19.8-200.fc28.x86_64 #1 SMP Mon Dec 10 15:43:40 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux
+</code></pre>
+<p>We can also run it in interactive mode to get a shell using the <code>-i</code> (interactive) and <code>-t</code> (tty) flags.</p>
+<pre><code>$ docker run -it ubuntu:18.04
+root@fad321cefd0a:/# ls
+bin   dev  home  lib64  mnt  proc  run   srv  tmp  var
+boot  etc  lib   media  opt  root  sbin  sys  usr
+root@fad321cefd0a:/# exit
+</code></pre>
+<h2 id="web-server">Web server</h2>
+<p>Let&rsquo;s run a long-running process like a web server.
+We can use <a href="https://www.nginx.com/">NGINX</a> for that.</p>
+<pre><code>$ docker run -p 8080:80 nginx
+</code></pre>
+<p>NGINX opens port 80 for HTTP. We can use the <code>-p</code> option to map the port to a host port like 8080.</p>
+<p>We can test the container by opening URL <a href="http://localhost:8080/">http://localhost:8080/</a> in our browser or with <code>curl</code> in another terminal.</p>
+<pre><code>$ curl http://localhost:8080/
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Welcome to nginx!&lt;/title&gt;
+...
+</code></pre>
+<p>You should see NGINX write logs to the terminal where you launched NGINX.</p>
+<pre><code>172.17.0.1 - - [01/Feb/2019:13:12:58 +0000] &quot;GET / HTTP/1.1&quot; 200 612 &quot;-&quot; &quot;Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:64.0) Gecko/20100101 Firefox/64.0&quot; &quot;-&quot;
+2019/02/01 13:12:58 [error] 6#6: *1 open() &quot;/usr/share/nginx/html/favicon.ico&quot; failed (2: No such file or directory), client: 172.17.0.1, server: localhost, request: &quot;GET /favicon.ico HTTP/1.1&quot;, host: &quot;localhost:8080&quot;
+172.17.0.1 - - [01/Feb/2019:13:12:58 +0000] &quot;GET /favicon.ico HTTP/1.1&quot; 404 153 &quot;-&quot; &quot;Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:64.0) Gecko/20100101 Firefox/64.0&quot; &quot;-&quot;
+172.17.0.1 - - [01/Feb/2019:13:14:33 +0000] &quot;GET / HTTP/1.1&quot; 200 612 &quot;-&quot; &quot;curl/7.59.0&quot; &quot;-&quot;
+</code></pre>
+<p>Containers can also be run detached from the terminal with the <code>-d</code> flag.
+Let&rsquo;s also give the container a name we can refer to later.
+Kill the container with Ctrl+C and run the following command.</p>
+<pre><code>$ docker run -d --name web -p 8080:80 nginx
+624a8853afe59b69a7a4ba3f35fa274ba28247bd931cef1f505a9129aad8fa5b
+</code></pre>
+<p>The printed ID is the container ID, which we will look into later.
+Check that the web server still responds.</p>
+<pre><code>$ curl http://localhost:8080/
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Welcome to nginx!&lt;/title&gt;
+...
+</code></pre>
+<h2 id="freestyle-find-and-run-a-docker-image">Freestyle: Find and run a Docker image</h2>
+<p>Spend some time browsing Docker images from <a href="https://hub.docker.com/">Docker Hub</a>,
+and try to get one running with your instructor&rsquo;s help.</p>
+
+		</div>
+		
+	
+		
+			<div class="Page" id="Managing Docker containers">
+				<h1><a href="https://polarsquad.github.io/docker-basics-workshop/04-managing-containers/">Managing Docker containers</a></h1>
+				<p>Usually we want some feedback on how our containers are doing.
+In this section, we&rsquo;ll look into a few ways we can examine and manage Docker containers.</p>
+<h2 id="listing-containers">Listing containers</h2>
+<p>There are two ways to list the currently running containers.
+One is to use <code>docker container ls</code> and the other <code>docker ps</code>.
+Both commands produce the same output.</p>
+<pre><code>$ docker ps
+CONTAINER ID    IMAGE    COMMAND                  CREATED         STATUS          PORTS                  NAMES
+624a8853afe5    nginx    &quot;nginx -g 'daemon of…&quot;   3 seconds ago   Up 2 seconds    0.0.0.0:8080-&gt;80/tcp   web
+</code></pre>
+<p>If you still have your web server from the previous exercise running,
+you should see it listed.</p>
+<p>You can also list all past containers with the help of the <code>-a</code> flag.</p>
+<pre><code>$ docker ps -a
+CONTAINER ID    IMAGE           COMMAND                  CREATED          STATUS                     PORTS                  NAMES
+624a8853afe5    nginx           &quot;nginx -g 'daemon of…&quot;   2 minutes ago    Up 2 minutes               0.0.0.0:8080-&gt;80/tcp   web
+ee73eeb1a2e3    nginx           &quot;nginx -g 'daemon of…&quot;   3 minutes ago    Exited (0) 2 minutes ago                          festive_mestorf
+8c6a15958a2e    ubuntu:18.04    &quot;uname -a&quot;               5 minutes ago    Exited (0) 5 minutes ago                          jovial_sinoussi
+4cbcaffa8ca5    hello-world     &quot;/hello&quot;                 6 minutes ago    Exited (0) 6 minutes ago                          suspicious_pascal
+</code></pre>
+<p>We can later use the container IDs and names to refer to these containers for further operations.
+Both of them are automatically generated for us, but we can also set the name as done in the earlier exercise.</p>
+<h2 id="printing-logs">Printing logs</h2>
+<p>When we ran the NGINX container in foreground earlier,
+we could see the logs printed on the terminal directly.
+Now that NGINX is running in the background,
+we need another way to view the logs.</p>
+<p>This is where the <code>docker logs</code> command comes in handy.
+We can use container name we defined earlier or the container ID to get logs from the web server.</p>
+<pre><code>$ docker logs web
+172.17.0.1 - - [01/Feb/2019:13:12:58 +0000] &quot;GET / HTTP/1.1&quot; 200 612 &quot;-&quot; &quot;Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:64.0) Gecko/20100101 Firefox/64.0&quot; &quot;-&quot;
+...
+$ docker logs 624a8853afe5
+172.17.0.1 - - [01/Feb/2019:13:12:58 +0000] &quot;GET / HTTP/1.1&quot; 200 612 &quot;-&quot; &quot;Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:64.0) Gecko/20100101 Firefox/64.0&quot; &quot;-&quot;
+...
+</code></pre>
+<p>You can also follow the flow of logs with the help of the <code>-f</code> flag.</p>
+<pre><code>$ docker logs -f web
+</code></pre>
+<p>Use Ctrl+C to exit the log follow command.</p>
+<h2 id="examining-container-processes">Examining container processes</h2>
+<p>We can use the <code>docker top</code> command to examine the processes running inside a container.
+Let&rsquo;s see what&rsquo;s running in the NGINX container.</p>
+<pre><code>$ docker top web
+UID     PID      PPID     C     STIME     TTY    TIME       CMD
+root    32541    32524    0     20:00     ?      00:00:00   nginx: master process nginx -g daemon off;
+101     32583    32541    0     20:00     ?      00:00:00   nginx: worker process
+</code></pre>
+<p>The <code>docker top</code> command accepts Linux <code>ps</code> command parameters,
+which you can use to tune the <code>top</code> output.
+See <code>man ps</code> for more <code>ps</code> options.</p>
+<h2 id="executing-commands-on-containers">Executing commands on containers</h2>
+<p>Sometimes we may want to inspect the container by running arbitrary commands inside it.
+We can use <code>docker exec</code> for that.</p>
+<p>For example, if we want to check the configuration used in the NGINX container,
+we can use <code>docker exec</code> with simple <code>cat</code> and a path to the config file.</p>
+<pre><code>$ docker exec web cat /etc/nginx/nginx.conf
+
+user  nginx;
+worker_processes  1;
+
+error_log  /var/log/nginx/error.log warn;
+pid        /var/run/nginx.pid;
+
+...
+</code></pre>
+<p>We can also combine <code>docker exec</code> with the <code>-it</code> flags we used earlier to get an interactive shell inside the container.</p>
+<pre><code>$ docker exec -it web bash
+root@1aabce753f41:/# ls
+bin  boot  dev	etc  home  lib	lib64  media  mnt  opt	proc  root  run  sbin  srv  sys  tmp  usr  var
+root@1aabce753f41:/#
+</code></pre>
+<h2 id="stopping-a-container">Stopping a container</h2>
+<p>Once we are done with the container, we can stop it with <code>docker stop</code>.</p>
+<pre><code>$ docker stop web
+</code></pre>
+<p>If the container is stuck, we can also stop it by force using <code>docker kill</code>.</p>
+<pre><code>$ docker kill web
+</code></pre>
+<h2 id="listing-images">Listing images</h2>
+<p>Containers are created from Docker images.
+The appropriate images are automatically downloaded when you run a container.
+You can list the downloaded images with <code>docker images</code> or <code>docker image ls</code>.</p>
+<pre><code>$ docker images
+REPOSITORY      TAG        IMAGE ID         CREATED        SIZE
+nginx           latest     42b4762643dc     1 hour ago     109MB
+ubuntu          18.04      20bb25d32758     1 hour ago     87.5MB
+hello-world     latest     fce289e99eb9     1 hour ago     1.84kB
+</code></pre>
+<h2 id="cleaning-your-docker-environment">Cleaning your Docker environment</h2>
+<p>After the container process stops,
+the container is still left around for further inspection.
+You can view the stopped containers using <code>docker ps -a</code>.</p>
+<p>To get rid of the stopped containers, you can use the <code>docker rm</code> or <code>docker container rm</code> command.</p>
+<pre><code>$ docker rm web
+</code></pre>
+<p>If you want the container to be automatically removed after it has stopped,
+you can add the <code>--rm</code> flag to <code>docker run</code>.
+It&rsquo;s considered a good idea to use <code>--rm</code> by default.</p>
+<pre><code>$ docker run --rm --name web -p 8080:80 nginx
+$ docker stop web
+</code></pre>
+<p>If you want to also get rid of the Docker image, you can run the <code>docker rmi</code> or <code>docker image rm</code> command.</p>
+<pre><code>$ docker rmi nginx
+</code></pre>
+<p>To automatically get rid of unused containers and images, you can use the following commands.</p>
+<pre><code>$ docker container prune
+$ docker image prune
+</code></pre>
+
+		</div>
+		
+	
+		
+			<div class="Page" id="Building your first Docker app">
+				<h1><a href="https://polarsquad.github.io/docker-basics-workshop/05-building-your-first-app/">Building your first Docker app</a></h1>
+				<p>Having the capability to leverage pre-existing Docker images is awesome,
+but often we want to create our own Docker images.
+In this section, we&rsquo;ll create our own Docker application.</p>
+<h2 id="web-application-example">Web application example</h2>
+<p>Let&rsquo;s prepare a simple <a href="https://www.python.org/">Python</a> web application for containerization.
+First, create a directory for your app.</p>
+<pre><code>$ mkdir ~/myapp
+$ cd ~/myapp
+</code></pre>
+<p>Next, create a Python file named <code>app.py</code> to the directory we just created,
+and write the following contents to it.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#ff79c6">from</span> flask <span style="color:#ff79c6">import</span> Flask
+app <span style="color:#ff79c6">=</span> Flask(__name__)
+
+@app.route(<span style="color:#f1fa8c">&#39;/&#39;</span>)
+<span style="color:#ff79c6">def</span> <span style="color:#50fa7b">hello</span>():
+    <span style="color:#ff79c6">return</span> <span style="color:#f1fa8c">&#34;Hello World!</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#34;</span>
+
+<span style="color:#ff79c6">if</span> __name__ <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#39;__main__&#39;</span>:
+    app<span style="color:#ff79c6">.</span>run(host<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#39;0.0.0.0&#39;</span>, port<span style="color:#ff79c6">=</span><span style="color:#bd93f9">3000</span>)
+</code></pre></div><p>If you have Python and <a href="http://flask.pocoo.org/">Flask</a> installed,
+you can try running the app with command <code>python app.py</code> in the app directory.</p>
+<pre><code>~/myapp $ python app.py
+* Serving Flask app &quot;app&quot; (lazy loading)
+* Environment: production
+  WARNING: Do not use the development server in a production environment.
+  Use a production WSGI server instead.
+* Debug mode: off
+* Running on http://0.0.0.0:3000/ (Press CTRL+C to quit)
+</code></pre>
+<p>Don&rsquo;t worry if it doesn&rsquo;t work just yet.</p>
+<h2 id="dockerfile">Dockerfile</h2>
+<p>Now that we have a very basic app prepared,
+we can package it into a Docker image.
+For that, we need to write a Dockerfile.</p>
+<p>Create a file named <code>Dockerfile</code> in the directory we created earlier.
+In that file, add the following contents.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#ff79c6">FROM</span><span style="color:#f1fa8c"> ubuntu:18.04</span>
+<span style="color:#ff79c6">WORKDIR</span><span style="color:#f1fa8c"> /opt/myapp</span>
+<span style="color:#ff79c6">COPY</span> app.py .
+<span style="color:#ff79c6">RUN</span> apt-get update
+<span style="color:#ff79c6">RUN</span> apt-get install -y python python-pip
+<span style="color:#ff79c6">RUN</span> pip install Flask
+<span style="color:#ff79c6">CMD</span> [<span style="color:#f1fa8c">&#34;python&#34;</span>, <span style="color:#f1fa8c">&#34;app.py&#34;</span>]
+</code></pre></div><p>Each line in this file is an instruction for Docker image builder.
+The first word of the line is a command,
+and the rest of the words are parameters for that command.
+Here&rsquo;s what they do.</p>
+<ul>
+<li><code>FROM</code> describes the image to build our image on.
+In this case, we&rsquo;re going to use a plain Ubuntu image as the base image.</li>
+<li><code>WORKDIR</code> sets the working directory in the image</li>
+<li><code>COPY</code> copies our Python file from our host directory <code>~/myapp</code> to the image.</li>
+<li><code>RUN</code> runs a Linux program inside the image.
+In this case, we install Python and PIP, a package manager for Python,
+and then install the app dependencies using PIP.</li>
+<li><code>CMD</code> sets <code>python app.py</code> to be the default command, when we run the container.</li>
+</ul>
+<h2 id="build-from-dockerfile">Build from Dockerfile</h2>
+<p>Our Docker image is ready for build! Let&rsquo;s use <code>docker build</code> to do that.</p>
+<pre><code>~/myapp $ docker build -t myapp .
+</code></pre>
+<p>Using the option <code>-t</code>, we can specify a name for our Docker image similar to <code>ubuntu:18.04</code> and <code>nginx</code>.
+In Docker, the name is called a tag. The same image can have multiple tags.</p>
+<p>The positional parameter specifies the context for the Docker build,
+i.e. the path where all the resources for the Docker image can be found.
+In this case, we use the <code>~/myapp</code> as the context directory.</p>
+<p>After the build, we should now have a Docker image named <code>myapp</code>.</p>
+<pre><code>$ docker images myapp
+REPOSITORY  TAG        IMAGE ID         CREATED           SIZE
+pyapp       latest     5ebae78df742     1 minute ago      455MB
+</code></pre>
+<p>Let&rsquo;s smoke test it!
+The app opens port 3000, so we&rsquo;ll need to set a forwarding rule to that port.</p>
+<pre><code>$ docker run --rm -d --name myapp -p 3000:3000 myapp
+$ curl http://localhost:3000/
+Hello World!
+$ docker stop myapp
+</code></pre>
+<p>We now have our very first Docker app ready! Awesome!</p>
+<h2 id="improving-our-docker-image">Improving our Docker image</h2>
+<p>Even though the Docker image works,
+there&rsquo;s a few improvements that are worth making.</p>
+<h3 id="caching">Caching</h3>
+<p>Docker caches each instruction and only re-runs them when they&rsquo;re likely to cause a change.
+For example, <code>RUN</code> instructions are re-run when the command is changed,
+and <code>COPY</code> instructions are rerun when the source file changes.</p>
+<p>Additionally, when an instruction needs to be ran again,
+all the instructions that follow will need to be run as well.
+For example, if we change <code>app.py</code> contents and rebuild the image,
+<code>apt-get</code> and <code>pip</code> will be run again.</p>
+<p>We can improve the caching by moving the <code>COPY</code> instruction to the bottom of the file.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#ff79c6">FROM</span><span style="color:#f1fa8c"> ubuntu:18.04</span>
+<span style="color:#ff79c6">WORKDIR</span><span style="color:#f1fa8c"> /opt/myapp</span>
+<span style="color:#ff79c6">RUN</span> apt-get update
+<span style="color:#ff79c6">RUN</span> apt-get install -y python python-pip
+<span style="color:#ff79c6">RUN</span> pip install Flask
+<span style="color:#ff79c6">CMD</span> [<span style="color:#f1fa8c">&#34;python&#34;</span>, <span style="color:#f1fa8c">&#34;app.py&#34;</span>]
+<span style="color:#ff79c6">COPY</span> app.py .
+</code></pre></div><h3 id="cleaning-up">Cleaning up</h3>
+<p>Have a look at the size of the Docker image.</p>
+<pre><code>$ docker images myapp
+REPOSITORY  TAG        IMAGE ID         CREATED           SIZE
+pyapp       latest     5ebae78df742     1 minute ago      455MB
+</code></pre>
+<p>Let&rsquo;s see if we can reduce the size by removing some of the cache files and unused packages.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#ff79c6">FROM</span><span style="color:#f1fa8c"> ubuntu:18.04</span>
+<span style="color:#ff79c6">WORKDIR</span><span style="color:#f1fa8c"> /opt/myapp</span>
+<span style="color:#ff79c6">RUN</span> apt-get update
+<span style="color:#ff79c6">RUN</span> apt-get install -y python python-pip
+<span style="color:#ff79c6">RUN</span> pip install --no-cache Flask
+<span style="color:#ff79c6">RUN</span> apt-get remove -y python-pip
+<span style="color:#ff79c6">RUN</span> apt-get autoremove -y
+<span style="color:#ff79c6">RUN</span> rm -rf /var/lib/apt/lists/*
+<span style="color:#ff79c6">CMD</span> [<span style="color:#f1fa8c">&#34;python&#34;</span>, <span style="color:#f1fa8c">&#34;app.py&#34;</span>]
+<span style="color:#ff79c6">COPY</span> app.py .
+</code></pre></div><p>Now let&rsquo;s have a look at that image size again&hellip;</p>
+<pre><code>~/myapp $ docker build -t myapp .
+~/myapp $ docker images myapp
+REPOSITORY   TAG       IMAGE ID        CREATED          SIZE
+myapp        latest    afc654b35aad    30 seconds ago   457MB
+</code></pre>
+<p>Huh?! The image size is actually WORSE!</p>
+<p>There&rsquo;s an explanation for this in the feature that supports the instruction caching: layers.
+Each instruction creates a new layer of files.
+When the image is built, the layers are stacked together to represent the final container file system.
+Therefore, when we create an instruction to remove files,
+it will just create a layer with those files missing,
+but it will not remove them from the previously created layer.</p>
+<p>We can view these layers using <code>docker history</code>.</p>
+<pre><code>$ docker history myapp
+IMAGE               CREATED             CREATED BY                                      SIZE  
+afc654b35aad        5 minutes ago       /bin/sh -c #(nop) COPY file:7348164eda8bae0d…   169B  
+01a4ccfecf8f        5 minutes ago       /bin/sh -c #(nop)  CMD [&quot;python&quot; &quot;app.py&quot;]      0B    
+ea344c5663c7        5 minutes ago       /bin/sh -c rm -rf /var/lib/apt/lists/*          0B    
+64764d84582c        5 minutes ago       /bin/sh -c apt-get autoremove -y                1.18MB
+abd52a23b584        5 minutes ago       /bin/sh -c apt-get remove -y python-pip         1.29MB
+5ff8caeb97bc        5 minutes ago       /bin/sh -c pip install --no-cache Flask         4.02MB
+a05eb9c23c4c        5 minutes ago       /bin/sh -c apt-get install -y python python-…   339MB 
+2e52e5d4b94f        5 minutes ago       /bin/sh -c apt-get update                       24.5MB
+38bb6c7c3d6c        10 minutes ago      /bin/sh -c #(nop) WORKDIR /opt/myapp            0B    
+20bb25d32758        2 hours ago         /bin/sh -c #(nop)  CMD [&quot;/bin/bash&quot;]            0B    
+&lt;missing&gt;           2 hours ago         /bin/sh -c mkdir -p /run/systemd &amp;&amp; echo 'do…   7B    
+&lt;missing&gt;           2 hours ago         /bin/sh -c rm -rf /var/lib/apt/lists/*          0B    
+&lt;missing&gt;           2 hours ago         /bin/sh -c set -xe   &amp;&amp; echo '#!/bin/sh' &gt; /…   745B  
+&lt;missing&gt;           2 hours ago         /bin/sh -c #(nop) ADD file:38a199e521f5e9007…   87.5MB
+</code></pre>
+<p>How do we get rid of those files then?
+The solution is to run all of the steps within a single instruction to create just one layer.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#ff79c6">FROM</span><span style="color:#f1fa8c"> ubuntu:18.04</span>
+<span style="color:#ff79c6">WORKDIR</span><span style="color:#f1fa8c"> /opt/myapp</span>
+<span style="color:#ff79c6">RUN</span> apt-get update <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    apt-get install -y python python-pip <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    pip install --no-cache Flask <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    apt-get remove -y python-pip <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    apt-get autoremove -y <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    rm -rf /var/lib/apt/lists/*
+<span style="color:#ff79c6">CMD</span> [<span style="color:#f1fa8c">&#34;python&#34;</span>, <span style="color:#f1fa8c">&#34;app.py&#34;</span>]
+<span style="color:#ff79c6">COPY</span> app.py .
+</code></pre></div><p>Let&rsquo;s have a look at the history now.</p>
+<pre><code>$ docker history myapp
+IMAGE               CREATED             CREATED BY                                      SIZE  
+aa64ac6a505c        5 minutes ago       /bin/sh -c #(nop) COPY file:7348164eda8bae0d…   169B  
+b647886bd2bb        5 minutes ago       /bin/sh -c #(nop)  CMD [&quot;python&quot; &quot;app.py&quot;]      0B    
+8ac22646ce40        5 minutes ago       /bin/sh -c apt-get update &amp;&amp;     apt-get ins…   42.7MB
+38bb6c7c3d6c        10 minutes ago      /bin/sh -c #(nop) WORKDIR /opt/myapp            0B    
+20bb25d32758        2 hours ago         /bin/sh -c #(nop)  CMD [&quot;/bin/bash&quot;]            0B    
+&lt;missing&gt;           2 hours ago         /bin/sh -c mkdir -p /run/systemd &amp;&amp; echo 'do…   7B    
+&lt;missing&gt;           2 hours ago         /bin/sh -c rm -rf /var/lib/apt/lists/*          0B    
+&lt;missing&gt;           2 hours ago         /bin/sh -c set -xe   &amp;&amp; echo '#!/bin/sh' &gt; /…   745B  
+&lt;missing&gt;           2 hours ago         /bin/sh -c #(nop) ADD file:38a199e521f5e9007…   87.5MB
+</code></pre>
+<p>There&rsquo;s now less layers, and the huge +300 MB layer is gone. Let&rsquo;s check the full image size now.</p>
+<pre><code>$ docker images myapp
+REPOSITORY    TAG       IMAGE ID       CREATED           SIZE
+myapp         latest    aa64ac6a505c   30 seconds ago    130MB
+</code></pre>
+<p>We managed reduce the size to about 30% of what we had earlier. Not bad!</p>
+<h3 id="alternative-base-images">Alternative base images</h3>
+<p>Using Ubuntu as the base image might not always be the most lightweight option.
+You might also want to look into alternative base images such as <a href="https://hub.docker.com/_/debian">Debian slim</a>
+or <a href="https://hub.docker.com/_/alpine">Alpine</a>.
+There&rsquo;s also <a href="https://hub.docker.com/_/python">a pre-made image for Python</a>,
+which includes Python and some Python related tools like PIP pre-installed.</p>
+<p>Here&rsquo;s a Dockerfile that&rsquo;s based on Alpine.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#ff79c6">FROM</span><span style="color:#f1fa8c"> alpine</span>
+<span style="color:#ff79c6">WORKDIR</span><span style="color:#f1fa8c"> /opt/myapp</span>
+<span style="color:#ff79c6">RUN</span> apk update <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    apk add python py-pip <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    pip install --no-cache Flask <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    apk del py-pip
+<span style="color:#ff79c6">CMD</span> [<span style="color:#f1fa8c">&#34;python&#34;</span>, <span style="color:#f1fa8c">&#34;app.py&#34;</span>]
+<span style="color:#ff79c6">COPY</span> app.py .
+</code></pre></div><p>Let&rsquo;s build it with another tag and compare it to the Ubuntu based image.</p>
+<pre><code>~/myapp $ docker build -t myapp:alpine .
+~/myapp $ docker images myapp
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+myapp               alpine              494f4abc243c        39 seconds ago      48.6MB
+myapp               latest              aa64ac6a505c        10 minutes ago      130MB
+</code></pre>
+<p>Just under 50 MB, which is roughly 10% of what we had originally. Nice!</p>
+<h3 id="running-as-non-root">Running as non-root</h3>
+<p>By default, all containers run as root by default.
+Even though there&rsquo;s plenty of isolation between the container and the host system,
+it&rsquo;s a good practice to use a custom user in containers whenever possible.
+Optimally, the custom user is defined and set in the Dockerfile.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#ff79c6">FROM</span><span style="color:#f1fa8c"> ubuntu:18.04</span>
+<span style="color:#ff79c6">WORKDIR</span><span style="color:#f1fa8c"> /opt/myapp</span>
+<span style="color:#ff79c6">RUN</span> apt-get update <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    apt-get install -y python python-pip <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    pip install --no-cache Flask <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    apt-get remove -y python-pip <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    apt-get autoremove -y <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    rm -rf /var/lib/apt/lists/*
+<span style="color:#ff79c6">RUN</span> groupadd -g <span style="color:#bd93f9">999</span> appuser <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    useradd -r -u <span style="color:#bd93f9">999</span> -g appuser appuser
+<span style="color:#ff79c6">USER</span><span style="color:#f1fa8c"> appuser:appuser</span>
+<span style="color:#ff79c6">CMD</span> [<span style="color:#f1fa8c">&#34;python&#34;</span>, <span style="color:#f1fa8c">&#34;app.py&#34;</span>]
+<span style="color:#ff79c6">COPY</span> app.py .
+</code></pre></div><p>We can also set the user and group when we run the container using <code>docker run</code> command&rsquo;s <code>-u</code> option.</p>
+<h2 id="freestyle-experiment-with-your-own-dockerfile">Freestyle: Experiment with your own Dockerfile</h2>
+<p>Create your own Dockerfile or extend one of the Dockerfiles shown earlier.</p>
+
+		</div>
+		
+	
+		
+			<div class="Page" id="Publishing a Docker image">
+				<h1><a href="https://polarsquad.github.io/docker-basics-workshop/06-publishing-images/">Publishing a Docker image</a></h1>
+				<p>Now that we have our own Docker image, let&rsquo;s look into how we can share it.</p>
+<p>Docker images can be published to registries.
+Most common registry is Docker Hub, where you can host both public and private Docker images.
+You can also get private Docker registries from providers such as AWS, Azure, and Google Cloud,
+or host your own registry.</p>
+<p>The registry name is part of the Docker name.
+For example, if we hosted our own private registry in address <code>registry.example.com</code>,
+then our Docker images in that address would have names such as
+<code>registry.example.com/myapp</code>, <code>registry.example.com/myapp2</code>, <code>registry.example.com/myorg/myapp</code> etc.</p>
+<p>Docker Hub hosted images hide the registry name from the image name.
+Their actual names would be like this.</p>
+<ul>
+<li><code>ubuntu</code> is <code>registry.hub.docker.com/_/ubuntu</code></li>
+<li><code>nginx</code> is <code>registry.hub.docker.com/_/nginx</code></li>
+<li><code>someuser/someapp</code> is <code>registry.hub.docker.com/someuser/someapp</code></li>
+</ul>
+<p>For this exercise, let&rsquo;s host our own local registry to simulate a custom registry for the app we created in the last section.</p>
+<pre><code>$ docker run --rm -d -p 5000:5000 --name registry registry:2
+</code></pre>
+<p>Before we can push our app, we need to re-tag it to include the registry name.</p>
+<pre><code>$ docker tag myapp localhost:5000/myapp
+$ docker images localhost:5000/myapp
+REPOSITORY              TAG       IMAGE ID        CREATED          SIZE
+localhost:5000/myapp    latest    9415036e1386    25 minutes ago   131MB
+</code></pre>
+<p>Now we can push the image.</p>
+<pre><code>$ docker push localhost:5000/myapp
+The push refers to repository [localhost:5000/myapp]
+ea4105421e40: Pushed 
+b413a7b68cc8: Pushed 
+7113e6f202c2: Pushed 
+0877695240f0: Pushed 
+27a216ffe825: Pushed 
+9e9d3c3a7458: Pushed 
+7604c8714555: Pushed 
+adcb570ae9ac: Pushed 
+latest: digest: sha256:dc97f7c1d2f642fdcc1ed89df29da3147c95acd37647ac0fc26556b862b665f9 size: 1984
+</code></pre>
+<p>Let&rsquo;s see if we can pull the image back from the registry.</p>
+<pre><code>$ docker image rm localhost:5000/myapp
+$ docker image rm myapp
+$ docker pull localhost:5000/myapp
+Using default tag: latest
+latest: Pulling from myapp
+38e2e6cd5626: Already exists 
+705054bc3f5b: Already exists 
+c7051e069564: Already exists 
+7308e914506c: Already exists 
+39f5794675c7: Pull complete 
+7803fc71e96f: Pull complete 
+90379ee10948: Pull complete 
+e0eba736f7d3: Pull complete 
+Digest: sha256:dc97f7c1d2f642fdcc1ed89df29da3147c95acd37647ac0fc26556b862b665f9
+Status: Downloaded newer image for localhost:5000/myapp:latest
+$ docker images localhost:5000/myapp
+REPOSITORY             TAG       IMAGE ID       CREATED          SIZE
+localhost:5000/myapp   latest    9415036e1386   39 minutes ago   131MB
+</code></pre>
+<p>Brilliant! Let&rsquo;s re-tag the image to <code>myapp</code> and clean up the resources.</p>
+<pre><code>$ docker tag localhost:5000/myapp myapp
+$ docker stop registry
+</code></pre>
+
+		</div>
+		
+	
+		
+			<div class="Page" id="Mounting files">
+				<h1><a href="https://polarsquad.github.io/docker-basics-workshop/07-volumes/">Mounting files</a></h1>
+				<p>So far all our files are built into the images.
+Let&rsquo;s see how we can mount files to containers from the host system,
+and what we can do with them.</p>
+<h2 id="static-web-pages-for-our-web-server">Static web pages for our web server</h2>
+<p>Docker can mount files from anywhere in the host system to the container.</p>
+<p>Let&rsquo;s create some custom content for the NGINX web server we ran earlier.</p>
+<pre><code>$ mkdir web
+$ echo &quot;Hello world!&quot; &gt; web/hello.txt
+</code></pre>
+<p>Let&rsquo;s run the web server again with the directory mounted.</p>
+<pre><code>$ docker run --rm -v &quot;$PWD/web:/usr/share/nginx/html&quot; -d --name web -p 8080:80 nginx
+</code></pre>
+<p>Here we use the <code>-v</code> option to add a volume mount in format <code>host_path:container_path</code>.
+We&rsquo;ll use the directory we just created as the host path we want to mount,
+and <code>/usr/share/nginx/html</code> as the target path in the container.
+In this case, the target path is the place where NGINX serves static files from.
+Note that the host path must be specified as an absolute path,
+which is why the example uses the <code>$PWD</code> environment variable.</p>
+<p>Let&rsquo;s see if we can access the file we just created and mounted.</p>
+<pre><code>$ curl http://localhost:8080/hello.txt
+Hello world!
+</code></pre>
+<p>Very cool! Let&rsquo;s clean up the resources.</p>
+<pre><code>$ docker stop web
+</code></pre>
+<h2 id="persisting-state">Persisting state</h2>
+<p>The mount we created earlier is called a <em>bind mount</em>.
+We can also create dedicated, persistent volumes that are managed by Docker,
+and mount them to containers.
+They are primarily used for ensuring critical data written by the containers is persisted safely.
+For example, the local Docker registry can use volumes to store the published images.</p>
+<p>Let&rsquo;s create our own volume!</p>
+<pre><code>$ docker volume create mystuff
+$ docker volume ls
+DRIVER      VOLUME NAME
+local       mystuff
+</code></pre>
+<p>The name of our volume is <code>mystuff</code>.
+By default, it uses a local driver, which means that all the data is stored in a host directory.
+We could also use an alternative driver that stores the data in a different way.</p>
+<p>Let&rsquo;s mount the volume to a plain Ubuntu container,
+and use the container to write some data to the volume.
+We can mount the volume using its name.</p>
+<pre><code>$ docker run --rm -v mystuff:/data ubuntu:18.04 \
+    bash -c 'apt-get update &amp;&amp; apt-get install -y cowsay &amp;&amp; /usr/games/cowsay Hello world! &gt; /data/message.txt'
+</code></pre>
+<p>We should now have a file in the <code>mystuff</code> volume.
+Let&rsquo;s see if we can find it from the host system.</p>
+<pre><code>$ docker volume inspect mystuff
+[
+    {
+        &quot;CreatedAt&quot;: &quot;2019-02-02T22:58:46+02:00&quot;,
+        &quot;Driver&quot;: &quot;local&quot;,
+        &quot;Labels&quot;: {},
+        &quot;Mountpoint&quot;: &quot;/var/lib/docker/volumes/mystuff/_data&quot;,
+        &quot;Name&quot;: &quot;mystuff&quot;,
+        &quot;Options&quot;: {},
+        &quot;Scope&quot;: &quot;local&quot;
+    }
+]
+</code></pre>
+<p>From the <code>docker volume inspect</code> output,
+we can see that the files are located in the <code>/var/lib/docker/volumes/mystuff/_data</code> on the host system.
+The files there are read protected from normal users, so we&rsquo;ll have to use <code>sudo</code> to access them.</p>
+<pre><code>$ sudo ls /var/lib/docker/volumes/mystuff/_data
+message.txt
+$ sudo cat /var/lib/docker/volumes/mystuff/_data/message.txt
+ ______________
+&lt; Hello world! &gt;
+ --------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+</code></pre>
+<p>We can also re-mount the volume to another container to read the data there.</p>
+<pre><code>$ docker run --rm -v mystuff:/usr/share/nginx/html -d --name web -p 8080:80 nginx
+$ curl http://localhost:8080/message.txt
+ ______________
+&lt; Hello world! &gt;
+ --------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+$ docker stop web
+</code></pre>
+<p>Great! Let&rsquo;s clean up the environment and delete the volume.</p>
+<pre><code>$ docker volume rm mystuff
+</code></pre>
+<h2 id="using-containers-for-building-software">Using containers for building software</h2>
+<p>A common use-case for containers and directory mounts is to build software and get the build artifacts.
+The reason for this is because containers can easily produce isolated and reproducible environments, and stay lightweight at the same time.
+This is especially useful in Continuous Integration servers,
+where concurrent build jobs may easily affect each other when there&rsquo;s no proper isolation in place.</p>
+<p>As an exercise, let&rsquo;s create a Docker image for building <a href="https://curl.haxx.se/libcurl/c/htmltitle.html">a curl C++ example program</a>.
+The program downloads and parses the title from HTML files.</p>
+<p>First, we should create a directory for the example and download the source code.</p>
+<pre><code>$ mkdir ~/curl-example
+$ cd ~/curl-example
+~/curl-example $ curl -sfLO https://github.com/curl/curl/raw/master/docs/examples/htmltitle.cpp
+</code></pre>
+<p>Let&rsquo;s also create a simple build script and name it <code>build.sh</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#ff79c6">#!/usr/bin/env bash
+</span><span style="color:#ff79c6"></span>g++ -Wall <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    <span style="color:#ff79c6">$(</span>pkg-config --cflags libxml-2.0<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">$(</span>pkg-config --cflags libcurl<span style="color:#ff79c6">)</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    htmltitle.cpp -o htmltitle <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    <span style="color:#ff79c6">$(</span>pkg-config --libs libxml-2.0<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">$(</span>pkg-config --libs libcurl<span style="color:#ff79c6">)</span>
+</code></pre></div><p>Make sure the script is executable:</p>
+<pre><code>~/curl-example $ chmod +x build.sh
+</code></pre>
+<p>Next, we need a Dockerfile for the builder image.
+The image will contain the build tools and libraries we need.
+By default, the builder will run the build script from the <code>/var/build</code> directory.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#ff79c6">FROM</span><span style="color:#f1fa8c"> ubuntu:18.04</span>
+<span style="color:#ff79c6">WORKDIR</span><span style="color:#f1fa8c"> /var/build</span>
+<span style="color:#ff79c6">RUN</span> apt-get update <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    apt-get install -y g++ libcurl4-openssl-dev libxml2-dev
+<span style="color:#ff79c6">CMD</span> [<span style="color:#f1fa8c">&#34;./build.sh&#34;</span>]
+</code></pre></div><p>Now we can build the image.</p>
+<pre><code>~/curl-example $ docker build -t builder .
+</code></pre>
+<p>We&rsquo;re now ready to run the builder with the files mounted.
+Instead of specifying the user and group in the Dockerfile,
+we&rsquo;ll provide them them using the <code>-u</code> flag.</p>
+<pre><code>~/curl-example $ docker run --rm -v &quot;$PWD:/var/build&quot; -u $(id -u):$(id -g) builder
+</code></pre>
+<p>We should have a binary file named <code>htmltitle</code> in our directory. Let&rsquo;s test it!</p>
+<pre><code>~/curl-example $ ls
+build.sh  Dockerfile  htmltitle  htmltitle.cpp
+~/curl-example $ ./htmltitle http://polarsquad.github.io/docker-basics-workshop/
+Title: Docker Basics Workshop
+</code></pre>
+
+		</div>
+		
+	
+		
+			<div class="Page" id="Docker networking">
+				<h1><a href="https://polarsquad.github.io/docker-basics-workshop/08-docker-networking/">Docker networking</a></h1>
+				<p>So far we&rsquo;ve used port forwarding to access containerized services.
+In this section, we&rsquo;ll briefly look into Docker&rsquo;s various networking models.</p>
+<p>Docker includes following network drivers.</p>
+<ul>
+<li><code>bridge</code>: network bridged with the host machine</li>
+<li><code>host</code>: connect container directly to the host network interface</li>
+<li><code>overlay</code>: a network that spans over multiple Docker hosts</li>
+<li><code>macvlan</code>: assign MAC addresses to containers, making them part of the network your host is connected to</li>
+<li><code>none</code>: disable all container networking</li>
+</ul>
+<p>It&rsquo;s also possible to install <a href="https://docs.docker.com/engine/extend/plugins_services/">a custom network plugin</a>
+to manage container networking.</p>
+<p>By default, Docker will have a <code>bridge</code>, a <code>host</code>, and a <code>none</code> network available.
+If not explicitly selected, the containers will use the <code>bridge</code> network by default.
+This includes all the containers we&rsquo;ve run so far.
+We can view these networks using the Docker CLI.</p>
+<pre><code>$ docker network ls
+NETWORK ID        NAME       DRIVER       SCOPE
+678c7d72b948      bridge     bridge       local
+4e05fb2c140c      host       host         local
+dbd54eecb19d      none       null         local
+</code></pre>
+<h2 id="host-network">Host network</h2>
+<p>Let&rsquo;s try connecting the app we created earlier to the <code>host</code> network driver.</p>
+<pre><code>$ docker run --rm -d --name myapp --net host myapp
+$ docker ps
+CONTAINER ID     IMAGE    COMMAND             CREATED           STATUS          PORTS     NAMES
+6e805ede534b     myapp    &quot;python app.py&quot;     10 seconds ago    Up 10 seconds             myapp
+</code></pre>
+<p>Notice how we no longer have a port mapping.
+This is because the container will open the port directly on the host network.
+We can test it with curl.</p>
+<pre><code>$ curl http://localhost:3000/
+Hello World!
+</code></pre>
+<p>If you have the <code>lsof</code> command installed,
+you should also be able to see Python program connected to the port.</p>
+<pre><code>$ sudo lsof -i TCP:3000
+COMMAND   PID             USER   FD   TYPE   DEVICE SIZE/OFF NODE NAME
+python  27365 systemd-coredump    3u  IPv4 35128999      0t0  TCP *:commplex-main (LISTEN)
+</code></pre>
+<p>Neat! Let&rsquo;s clean up the resources.</p>
+<pre><code>$ docker stop myapp
+</code></pre>
+<h2 id="custom-networks">Custom networks</h2>
+<p>The default bridge and host networks are great,
+but occasionally you may need to create custom networks for your containers.
+For example, you can use the custom networks to prevent containers from connecting to each other over the network.</p>
+<p>Let&rsquo;s create our own bridge network using the Docker CLI.</p>
+<pre><code>$ docker network create mynet
+$ docker network ls
+NETWORK ID       NAME      DRIVER    SCOPE
+678c7d72b948     bridge    bridge    local
+4e05fb2c140c     host      host      local
+f8ad75fd2622     mynet     bridge    local
+dbd54eecb19d     none      null      local
+</code></pre>
+<p>Let&rsquo;s now run our app in the network we just created.</p>
+<pre><code>$ docker run --rm -d --name myapp --net mynet myapp
+</code></pre>
+<p>We could specify a port forwarding rule to access the app from the host, but for now we can leave it out.
+Instead, let&rsquo;s run another container in the same network, that will do the HTTP request for us.
+We can use <code>appropriate/curl</code> for this, which is a pre-made image with <code>curl</code> installed.</p>
+<pre><code>$ docker run --rm --net mynet appropriate/curl -s http://myapp:3000/
+Hello World!
+</code></pre>
+<p>Notice how we used the container name as part of the HTTP request address.
+This works because the custom network will create internal DNS records that maps the container name to the container IP address.
+If you want to find out the container IP address, you can use the <code>docker inspect</code> command.</p>
+<pre><code>$ docker inspect myapp | grep IPAddress
+            &quot;SecondaryIPAddresses&quot;: null,
+            &quot;IPAddress&quot;: &quot;&quot;,
+                    &quot;IPAddress&quot;: &quot;172.19.0.2&quot;,
+$ docker run --rm --net mynet appropriate/curl -s http://172.19.0.2:3000/
+Hello World!
+</code></pre>
+<p>To confirm the network isolation works as expected,
+we can try to access our app using the <code>curl</code> container in the default network.</p>
+<pre><code>$ docker run --rm appropriate/curl -m 5 http://myapp:3000/
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0curl: (6) Could not resolve host: myapp
+$ docker run --rm appropriate/curl -m 5 http://172.19.0.2:3000/
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:--  0:00:05 --:--:--     0
+curl: (28) Connection timed out after 5000 milliseconds
+</code></pre>
+<p>Fantastic! Let&rsquo;s clean up the resources.</p>
+<pre><code>$ docker stop myapp
+$ docker network rm mynet
+</code></pre>
+
+		</div>
+		
+	
+		
+			<div class="Page" id="Docker Compose">
+				<h1><a href="https://polarsquad.github.io/docker-basics-workshop/09-docker-compose/">Docker Compose</a></h1>
+				<p>With Docker CLI, we can launch invididual containers.
+In this section, we&rsquo;ll cover a few examples on how to launch a fleet of containers using Docker Compose.</p>
+<p>Docker Compose is a tool for defining and running multiple containers.
+The containers are configured with <a href="https://yaml.org/">YAML</a> formatted files,
+and launched with the <code>docker-compose</code> command.</p>
+<h2 id="web-app-with-a-database">Web app with a database</h2>
+<p>A common use-case for Docker Compose is to use for configuring and launching a quick environment for testing an application you are developing.
+For example, if we were to develop a web application that stores data to a database,
+then the Docker Compose setup would launch the app and the database the app uses.</p>
+<p>Let&rsquo;s extend our web application to support storing data to a <a href="https://redis.io/">Redis</a> database.
+Copy and paste this updated source code to the Python app source file we created earlier.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#ff79c6">import</span> os
+<span style="color:#ff79c6">from</span> redis <span style="color:#ff79c6">import</span> Redis
+<span style="color:#ff79c6">from</span> flask <span style="color:#ff79c6">import</span> Flask, request, jsonify
+app <span style="color:#ff79c6">=</span> Flask(__name__)
+
+db <span style="color:#ff79c6">=</span> None
+
+@app.route(<span style="color:#f1fa8c">&#39;/&#39;</span>)
+<span style="color:#ff79c6">def</span> <span style="color:#50fa7b">hello</span>():
+    <span style="color:#ff79c6">return</span> <span style="color:#f1fa8c">&#39;Hello World!</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#39;</span>
+
+@app.route(<span style="color:#f1fa8c">&#39;/data&#39;</span>)
+<span style="color:#ff79c6">def</span> <span style="color:#50fa7b">alldata</span>():
+    <span style="color:#ff79c6">return</span> jsonify(db<span style="color:#ff79c6">.</span>hgetall(<span style="color:#f1fa8c">&#39;mydata&#39;</span>))
+
+@app.route(<span style="color:#f1fa8c">&#39;/data/&lt;id&gt;&#39;</span>, methods<span style="color:#ff79c6">=</span>[<span style="color:#f1fa8c">&#39;GET&#39;</span>, <span style="color:#f1fa8c">&#39;POST&#39;</span>])
+<span style="color:#ff79c6">def</span> <span style="color:#50fa7b">data</span>(<span style="color:#8be9fd;font-style:italic">id</span>):
+    <span style="color:#ff79c6">if</span> request<span style="color:#ff79c6">.</span>method <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#39;POST&#39;</span>:
+        db<span style="color:#ff79c6">.</span>hset(<span style="color:#f1fa8c">&#39;mydata&#39;</span>, <span style="color:#8be9fd;font-style:italic">id</span>, request<span style="color:#ff79c6">.</span>data)
+        <span style="color:#ff79c6">return</span> <span style="color:#f1fa8c">&#39;OK</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#39;</span>
+    <span style="color:#ff79c6">return</span> db<span style="color:#ff79c6">.</span>hget(<span style="color:#f1fa8c">&#39;mydata&#39;</span>, <span style="color:#8be9fd;font-style:italic">id</span>)
+
+<span style="color:#ff79c6">if</span> __name__ <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#39;__main__&#39;</span>:
+    db <span style="color:#ff79c6">=</span> Redis(
+        host<span style="color:#ff79c6">=</span>os<span style="color:#ff79c6">.</span>getenv(<span style="color:#f1fa8c">&#39;REDIS_HOST&#39;</span>),
+        port<span style="color:#ff79c6">=</span><span style="color:#8be9fd;font-style:italic">int</span>(os<span style="color:#ff79c6">.</span>getenv(<span style="color:#f1fa8c">&#39;REDIS_PORT&#39;</span>, <span style="color:#f1fa8c">&#39;6379&#39;</span>)),
+        password<span style="color:#ff79c6">=</span>os<span style="color:#ff79c6">.</span>getenv(<span style="color:#f1fa8c">&#39;REDIS_PASSWORD&#39;</span>, <span style="color:#f1fa8c">&#39;&#39;</span>),
+    )
+    app<span style="color:#ff79c6">.</span>run(host<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#39;0.0.0.0&#39;</span>, port<span style="color:#ff79c6">=</span><span style="color:#bd93f9">3000</span>)
+</code></pre></div><p>The application now has a <code>/data</code> endpoint,
+which you can use to insert arbitrary data to a single Redis hash map named <code>mydata</code>.
+The Redis connection details are configured using environment variables, which we will cover soon.</p>
+<p>Also, we need to update the Dockerfile to include the Redis Python bindings from PIP.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#ff79c6">FROM</span><span style="color:#f1fa8c"> ubuntu:18.04</span>
+<span style="color:#ff79c6">WORKDIR</span><span style="color:#f1fa8c"> /opt/myapp</span>
+<span style="color:#ff79c6">RUN</span> apt-get update <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    apt-get install -y python python-pip <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    pip install --no-cache Flask redis <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    apt-get remove -y python-pip <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    apt-get autoremove -y <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    rm -rf /var/lib/apt/lists/*
+<span style="color:#ff79c6">RUN</span> groupadd -g <span style="color:#bd93f9">999</span> appuser <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    useradd -r -u <span style="color:#bd93f9">999</span> -g appuser appuser
+<span style="color:#ff79c6">USER</span><span style="color:#f1fa8c"> appuser:appuser</span>
+<span style="color:#ff79c6">CMD</span> [<span style="color:#f1fa8c">&#34;python&#34;</span>, <span style="color:#f1fa8c">&#34;app.py&#34;</span>]
+<span style="color:#ff79c6">COPY</span> app.py .
+</code></pre></div><p>Now that we have our app source code updated,
+we can create a Docker Compose file that runs both Redis and our app simultaneously in one script.
+Create a file named <code>docker-compose.yml</code> next to the Dockerfile, and insert the following contents.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">version</span>: <span style="color:#f1fa8c">&#39;3&#39;</span>
+<span style="color:#ff79c6">services</span>:
+  <span style="color:#ff79c6">redis</span>:
+    <span style="color:#ff79c6">image</span>: redis
+  <span style="color:#ff79c6">myapp</span>:
+    <span style="color:#ff79c6">build</span>: .
+    <span style="color:#ff79c6">ports</span>:
+      - <span style="color:#f1fa8c">&#34;3000:3000&#34;</span>
+    <span style="color:#ff79c6">environment</span>:
+      <span style="color:#ff79c6">REDIS_HOST</span>: redis
+</code></pre></div><p>The file defines two services: <code>redis</code> and <code>myapp</code>.
+The Redis service uses <a href="https://hub.docker.com/_/redis">the Redis Docker image from Docker Hub</a>,
+which is pre-configured to launch Redis on port 6379.
+Our app will be built on-demand when we execute Docker Compose.</p>
+<p>The app will expose port 3000 as usual, and it&rsquo;s configured via the environment variables to contact the Redis server listed above.
+If we were to run the app container without Docker Compose,
+we would supply the environment variables using the <code>-e</code> flag: <code>-e REDIS_HOST=redis</code></p>
+<p>Docker Compose automatically creates a dedicated bridge network for the setup.
+We could also create custom networks in the Compose file by defining a <code>networks</code> section.</p>
+<p>Let&rsquo;s launch the containers with <code>docker-compose</code>.</p>
+<pre><code>~/myapp $ docker-compose up -d
+</code></pre>
+<p>The fleet is launched in the background because we used the <code>-d</code> flag.
+If we were to leave it out, the fleet would start in the foreground.</p>
+<p>We can test that the setup works by sending some data using <code>curl</code>.</p>
+<pre><code>$ curl -X POST -H 'Content-Type: text/plain' -d myvalue http://localhost:3000/data/mykey
+OK
+$ curl http://localhost:3000/data/mykey
+myvalue
+$ curl http://localhost:3000/data
+{&quot;mykey&quot;:&quot;myvalue&quot;}
+</code></pre>
+<p>Great! We can now tear down the setup.</p>
+<pre><code>~/myapp $ docker-compose down
+</code></pre>
+<h2 id="integration-tests">Integration tests</h2>
+<p>Now that we have a local development environment for our app,
+we can extend the setup to run some integration tests for us.</p>
+<p>Let&rsquo;s create a shell script that acts as our integration test.
+Write the shell script to file <code>integration_test.sh</code> next to the <code>docker-compose.yml</code> file we just created.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#ff79c6">#!/usr/bin/env sh
+</span><span style="color:#ff79c6"></span><span style="color:#8be9fd;font-style:italic">set</span> -e <span style="color:#6272a4"># Fail script on command error</span>
+
+<span style="color:#8be9fd;font-style:italic">APP_URL</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;http://</span><span style="color:#8be9fd;font-style:italic">$APP_HOST</span><span style="color:#f1fa8c">:</span><span style="color:#8be9fd;font-style:italic">$APP_PORT</span><span style="color:#f1fa8c">&#34;</span>
+
+<span style="color:#6272a4"># Poll server until it&#39;s ready</span>
+<span style="color:#ff79c6">while</span> true; <span style="color:#ff79c6">do</span>
+    <span style="color:#ff79c6">if</span> curl -sfL <span style="color:#f1fa8c">&#34;</span><span style="color:#8be9fd;font-style:italic">$APP_URL</span><span style="color:#f1fa8c">&#34;</span> &gt;/dev/null; <span style="color:#ff79c6">then</span>
+        <span style="color:#8be9fd;font-style:italic">break</span>
+    <span style="color:#ff79c6">fi</span>
+<span style="color:#ff79c6">done</span>
+
+<span style="color:#6272a4"># Test</span>
+<span style="color:#8be9fd;font-style:italic">EXPECTED</span><span style="color:#ff79c6">=</span>mytestvalue
+curl -sfL -X POST -H <span style="color:#f1fa8c">&#39;Content-Type: text/plain&#39;</span> -d <span style="color:#f1fa8c">&#34;</span><span style="color:#8be9fd;font-style:italic">$EXPECTED</span><span style="color:#f1fa8c">&#34;</span> <span style="color:#f1fa8c">&#34;</span><span style="color:#8be9fd;font-style:italic">$APP_URL</span><span style="color:#f1fa8c">/data/mytestkey&#34;</span>
+<span style="color:#8be9fd;font-style:italic">ACTUAL</span><span style="color:#ff79c6">=</span><span style="color:#ff79c6">$(</span>curl -sfL <span style="color:#f1fa8c">&#34;</span><span style="color:#8be9fd;font-style:italic">$APP_URL</span><span style="color:#f1fa8c">/data/mytestkey&#34;</span><span style="color:#ff79c6">)</span>
+
+<span style="color:#6272a4"># Check result</span>
+<span style="color:#ff79c6">if</span> <span style="color:#ff79c6">[</span> <span style="color:#f1fa8c">&#34;</span><span style="color:#8be9fd;font-style:italic">$ACTUAL</span><span style="color:#f1fa8c">&#34;</span> <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;</span><span style="color:#8be9fd;font-style:italic">$EXPECTED</span><span style="color:#f1fa8c">&#34;</span> <span style="color:#ff79c6">]</span>; <span style="color:#ff79c6">then</span>
+    <span style="color:#8be9fd;font-style:italic">echo</span> <span style="color:#f1fa8c">&#34;Test success!&#34;</span>
+<span style="color:#ff79c6">else</span>
+    <span style="color:#8be9fd;font-style:italic">echo</span> <span style="color:#f1fa8c">&#34;Test failed! </span><span style="color:#8be9fd;font-style:italic">$ACTUAL</span><span style="color:#f1fa8c"> != </span><span style="color:#8be9fd;font-style:italic">$EXPECTED</span><span style="color:#f1fa8c">&#34;</span>
+    <span style="color:#8be9fd;font-style:italic">exit</span> <span style="color:#bd93f9">1</span>
+<span style="color:#ff79c6">fi</span>
+</code></pre></div><p>Make sure the script is executable:</p>
+<pre><code>~/myapp $ chmod +x integration_test.sh
+</code></pre>
+<p>In the script above, we insert a value using the app <code>/data</code> endpoint, read it back, and verify that what we read is what we wrote.
+If the test fails, the script exits with an error code. Otherwise, the script will exit normally.
+Normally, you&rsquo;d most likely want to use a proper test framework, but this should be enough for this exercise.</p>
+<p>Before the test is executed, the script polls the server until it can contact it.
+This is done to avoid race conditions because Docker Compose launches all the containers simultaneously.</p>
+<p>Now we need to have this script executed as part of the Docker Compose setup.
+Instead of extending the existing <code>docker-compose.yml</code> file,
+we&rsquo;ll create a another similar file that contains only the test.
+We&rsquo;ll later merge the two compose files together.
+Create a file named <code>docker-compose-test.yml</code> next to the <code>docker-compose.yml</code> file.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">version</span>: <span style="color:#f1fa8c">&#39;3&#39;</span>
+<span style="color:#ff79c6">services</span>:
+  <span style="color:#ff79c6">mytest</span>:
+    <span style="color:#ff79c6">image</span>: appropriate/curl
+    <span style="color:#ff79c6">entrypoint</span>:
+      - /integration_test.sh
+    <span style="color:#ff79c6">command</span>: []
+    <span style="color:#ff79c6">environment</span>:
+      <span style="color:#ff79c6">APP_HOST</span>: myapp
+      <span style="color:#ff79c6">APP_PORT</span>: <span style="color:#bd93f9">3000</span>
+    <span style="color:#ff79c6">volumes</span>:
+      - ./integration_test.sh:/integration_test.sh
+</code></pre></div><p>For running the test, we&rsquo;ll use the <code>appropriate/curl</code> image from the earlier exercise.
+The test script will be brought in as a volume, and the configuration details via environment variables.</p>
+<p>Since the <code>appropriate/curl</code> image uses <code>curl</code> as the entrypoint program,
+we cannot launch the script by overriding the command.
+Instead, we&rsquo;ll need to override the entrypoint with our test script.</p>
+<p>When we run Docker Compose, we can use the <code>-f</code> option multiple times to provide custom Docker Compose scripts.
+This will combine the scripts to one script before it&rsquo;s run.</p>
+<p>We can use the flag <code>--abort-on-container-exit</code> to cause the entire setup to tear down automatically when any of the containers exit.
+This way the test script can automatically cause the setup to be torn down when it exits.
+Moreover, the exit code from the first container to exit will be the exit code for <code>docker-compose</code>,
+which we can use to determine whether the test was successful or not.</p>
+<p>Let&rsquo;s run the test Docker Compose script in combination with the existing Docker Compose script.</p>
+<pre><code>$ docker-compose -f docker-compose.yml -f docker-compose-test.yml up --abort-on-container-exit
+$ echo $?
+0
+</code></pre>
+<p>If the test succeeded, the exit code should be <code>0</code>.
+Try editing the integration test script to cause the test to fail, and re-run the Docker Compose command.</p>
+
+		</div>
+		
+	
+
+						<div class="Footer">
+	<p>Made with ❤️ for Developers by Polar Squad. Content on this site is licensed under a Creative Commons license</p>
+</div>
+<script src="https://polarsquad.github.io/docker-basics-workshop/js/index.js"></script>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-xxxx-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+					</div>
+				</div>
+		</div>
+	</body>
+</html>

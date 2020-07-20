@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://polarsquad.github.io/docker-basics-workshop/01-introduction/</loc>
+  </url>
+  
+  <url>
+    <loc>https://polarsquad.github.io/docker-basics-workshop/02-preparation/</loc>
+  </url>
+  
+  <url>
+    <loc>https://polarsquad.github.io/docker-basics-workshop/03-running-your-first-app/</loc>
+  </url>
+  
+  <url>
+    <loc>https://polarsquad.github.io/docker-basics-workshop/04-managing-containers/</loc>
+  </url>
+  
+  <url>
+    <loc>https://polarsquad.github.io/docker-basics-workshop/05-building-your-first-app/</loc>
+  </url>
+  
+  <url>
+    <loc>https://polarsquad.github.io/docker-basics-workshop/06-publishing-images/</loc>
+  </url>
+  
+  <url>
+    <loc>https://polarsquad.github.io/docker-basics-workshop/07-volumes/</loc>
+  </url>
+  
+  <url>
+    <loc>https://polarsquad.github.io/docker-basics-workshop/08-docker-networking/</loc>
+  </url>
+  
+  <url>
+    <loc>https://polarsquad.github.io/docker-basics-workshop/09-docker-compose/</loc>
+  </url>
+  
+  <url>
+    <loc>https://polarsquad.github.io/docker-basics-workshop/categories/</loc>
+  </url>
+  
+  <url>
+    <loc>https://polarsquad.github.io/docker-basics-workshop/</loc>
+  </url>
+  
+  <url>
+    <loc>https://polarsquad.github.io/docker-basics-workshop/tags/</loc>
+  </url>
+  
+</urlset>

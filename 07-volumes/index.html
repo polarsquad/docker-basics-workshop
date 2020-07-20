@@ -1,0 +1,264 @@
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<title>Mounting files &middot; Docker Basics Workshop</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	
+	
+	
+	<meta http-equiv="content-language" content="en-us" />
+	<meta name="generator" content="Hugo 0.74.2" />
+	<link rel="stylesheet" href="https://polarsquad.github.io/docker-basics-workshop/css/index.css">
+	<link rel="apple-touch-icon" href="https://polarsquad.github.io/docker-basics-workshop/apple-touch-icon.png">
+	<link rel="shortcut icon" href="https://polarsquad.github.io/docker-basics-workshop/favicon.ico" type="image/x-icon">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
+	 crossorigin="anonymous">
+</head>
+	<body>
+		<div class="Wrapper">
+			<div class="Container">
+				<div class="Header">
+  <a href="https://polarsquad.github.io/docker-basics-workshop/">
+	<div class="Title center">
+		
+			<img alt="Docker Basics Workshop Logo" src="https://polarsquad.github.io/docker-basics-workshop/290x132_PolarSquad_logo.png" height="140" />
+		
+		<span class="text">Docker Basics Workshop</span>
+		<span class="subtext"></span>
+	</div>
+  </a>
+</div>
+
+				<div class="Content-wrapper">
+					<div class="Sidebar">
+	<div class="Menu">
+		<div class="item">
+			<a href="https://polarsquad.github.io/docker-basics-workshop/">Home</a>
+		</div>
+		
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/02-preparation/">Preparation</a>
+				</div>
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/03-running-your-first-app/">Running your first Docker app</a>
+				</div>
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/04-managing-containers/">Managing Docker containers</a>
+				</div>
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/05-building-your-first-app/">Building your first Docker app</a>
+				</div>
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/06-publishing-images/">Publishing a Docker image</a>
+				</div>
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/07-volumes/">Mounting files</a>
+				</div>
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/08-docker-networking/">Docker networking</a>
+				</div>
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/09-docker-compose/">Docker Compose</a>
+				</div>
+			
+		
+			
+		
+			
+		
+			
+		
+	</div>
+</div>
+
+					<div class="Content">
+						
+	<div class="Page" id="">
+		<h1>Mounting files</h1>
+		<p>So far all our files are built into the images.
+Let&rsquo;s see how we can mount files to containers from the host system,
+and what we can do with them.</p>
+<h2 id="static-web-pages-for-our-web-server">Static web pages for our web server</h2>
+<p>Docker can mount files from anywhere in the host system to the container.</p>
+<p>Let&rsquo;s create some custom content for the NGINX web server we ran earlier.</p>
+<pre><code>$ mkdir web
+$ echo &quot;Hello world!&quot; &gt; web/hello.txt
+</code></pre>
+<p>Let&rsquo;s run the web server again with the directory mounted.</p>
+<pre><code>$ docker run --rm -v &quot;$PWD/web:/usr/share/nginx/html&quot; -d --name web -p 8080:80 nginx
+</code></pre>
+<p>Here we use the <code>-v</code> option to add a volume mount in format <code>host_path:container_path</code>.
+We&rsquo;ll use the directory we just created as the host path we want to mount,
+and <code>/usr/share/nginx/html</code> as the target path in the container.
+In this case, the target path is the place where NGINX serves static files from.
+Note that the host path must be specified as an absolute path,
+which is why the example uses the <code>$PWD</code> environment variable.</p>
+<p>Let&rsquo;s see if we can access the file we just created and mounted.</p>
+<pre><code>$ curl http://localhost:8080/hello.txt
+Hello world!
+</code></pre>
+<p>Very cool! Let&rsquo;s clean up the resources.</p>
+<pre><code>$ docker stop web
+</code></pre>
+<h2 id="persisting-state">Persisting state</h2>
+<p>The mount we created earlier is called a <em>bind mount</em>.
+We can also create dedicated, persistent volumes that are managed by Docker,
+and mount them to containers.
+They are primarily used for ensuring critical data written by the containers is persisted safely.
+For example, the local Docker registry can use volumes to store the published images.</p>
+<p>Let&rsquo;s create our own volume!</p>
+<pre><code>$ docker volume create mystuff
+$ docker volume ls
+DRIVER      VOLUME NAME
+local       mystuff
+</code></pre>
+<p>The name of our volume is <code>mystuff</code>.
+By default, it uses a local driver, which means that all the data is stored in a host directory.
+We could also use an alternative driver that stores the data in a different way.</p>
+<p>Let&rsquo;s mount the volume to a plain Ubuntu container,
+and use the container to write some data to the volume.
+We can mount the volume using its name.</p>
+<pre><code>$ docker run --rm -v mystuff:/data ubuntu:18.04 \
+    bash -c 'apt-get update &amp;&amp; apt-get install -y cowsay &amp;&amp; /usr/games/cowsay Hello world! &gt; /data/message.txt'
+</code></pre>
+<p>We should now have a file in the <code>mystuff</code> volume.
+Let&rsquo;s see if we can find it from the host system.</p>
+<pre><code>$ docker volume inspect mystuff
+[
+    {
+        &quot;CreatedAt&quot;: &quot;2019-02-02T22:58:46+02:00&quot;,
+        &quot;Driver&quot;: &quot;local&quot;,
+        &quot;Labels&quot;: {},
+        &quot;Mountpoint&quot;: &quot;/var/lib/docker/volumes/mystuff/_data&quot;,
+        &quot;Name&quot;: &quot;mystuff&quot;,
+        &quot;Options&quot;: {},
+        &quot;Scope&quot;: &quot;local&quot;
+    }
+]
+</code></pre>
+<p>From the <code>docker volume inspect</code> output,
+we can see that the files are located in the <code>/var/lib/docker/volumes/mystuff/_data</code> on the host system.
+The files there are read protected from normal users, so we&rsquo;ll have to use <code>sudo</code> to access them.</p>
+<pre><code>$ sudo ls /var/lib/docker/volumes/mystuff/_data
+message.txt
+$ sudo cat /var/lib/docker/volumes/mystuff/_data/message.txt
+ ______________
+&lt; Hello world! &gt;
+ --------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+</code></pre>
+<p>We can also re-mount the volume to another container to read the data there.</p>
+<pre><code>$ docker run --rm -v mystuff:/usr/share/nginx/html -d --name web -p 8080:80 nginx
+$ curl http://localhost:8080/message.txt
+ ______________
+&lt; Hello world! &gt;
+ --------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+$ docker stop web
+</code></pre>
+<p>Great! Let&rsquo;s clean up the environment and delete the volume.</p>
+<pre><code>$ docker volume rm mystuff
+</code></pre>
+<h2 id="using-containers-for-building-software">Using containers for building software</h2>
+<p>A common use-case for containers and directory mounts is to build software and get the build artifacts.
+The reason for this is because containers can easily produce isolated and reproducible environments, and stay lightweight at the same time.
+This is especially useful in Continuous Integration servers,
+where concurrent build jobs may easily affect each other when there&rsquo;s no proper isolation in place.</p>
+<p>As an exercise, let&rsquo;s create a Docker image for building <a href="https://curl.haxx.se/libcurl/c/htmltitle.html">a curl C++ example program</a>.
+The program downloads and parses the title from HTML files.</p>
+<p>First, we should create a directory for the example and download the source code.</p>
+<pre><code>$ mkdir ~/curl-example
+$ cd ~/curl-example
+~/curl-example $ curl -sfLO https://github.com/curl/curl/raw/master/docs/examples/htmltitle.cpp
+</code></pre>
+<p>Let&rsquo;s also create a simple build script and name it <code>build.sh</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#ff79c6">#!/usr/bin/env bash
+</span><span style="color:#ff79c6"></span>g++ -Wall <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    <span style="color:#ff79c6">$(</span>pkg-config --cflags libxml-2.0<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">$(</span>pkg-config --cflags libcurl<span style="color:#ff79c6">)</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    htmltitle.cpp -o htmltitle <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    <span style="color:#ff79c6">$(</span>pkg-config --libs libxml-2.0<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">$(</span>pkg-config --libs libcurl<span style="color:#ff79c6">)</span>
+</code></pre></div><p>Make sure the script is executable:</p>
+<pre><code>~/curl-example $ chmod +x build.sh
+</code></pre>
+<p>Next, we need a Dockerfile for the builder image.
+The image will contain the build tools and libraries we need.
+By default, the builder will run the build script from the <code>/var/build</code> directory.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#ff79c6">FROM</span><span style="color:#f1fa8c"> ubuntu:18.04</span>
+<span style="color:#ff79c6">WORKDIR</span><span style="color:#f1fa8c"> /var/build</span>
+<span style="color:#ff79c6">RUN</span> apt-get update <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    apt-get install -y g++ libcurl4-openssl-dev libxml2-dev
+<span style="color:#ff79c6">CMD</span> [<span style="color:#f1fa8c">&#34;./build.sh&#34;</span>]
+</code></pre></div><p>Now we can build the image.</p>
+<pre><code>~/curl-example $ docker build -t builder .
+</code></pre>
+<p>We&rsquo;re now ready to run the builder with the files mounted.
+Instead of specifying the user and group in the Dockerfile,
+we&rsquo;ll provide them them using the <code>-u</code> flag.</p>
+<pre><code>~/curl-example $ docker run --rm -v &quot;$PWD:/var/build&quot; -u $(id -u):$(id -g) builder
+</code></pre>
+<p>We should have a binary file named <code>htmltitle</code> in our directory. Let&rsquo;s test it!</p>
+<pre><code>~/curl-example $ ls
+build.sh  Dockerfile  htmltitle  htmltitle.cpp
+~/curl-example $ ./htmltitle http://polarsquad.github.io/docker-basics-workshop/
+Title: Docker Basics Workshop
+</code></pre>
+</div>
+
+						<div class="Footer">
+	<p>Made with ❤️ for Developers by Polar Squad. Content on this site is licensed under a Creative Commons license</p>
+</div>
+<script src="https://polarsquad.github.io/docker-basics-workshop/js/index.js"></script>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-xxxx-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+					</div>
+				</div>
+		</div>
+	</body>
+</html>

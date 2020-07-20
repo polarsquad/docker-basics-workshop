@@ -1,0 +1,351 @@
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<title>Building your first Docker app &middot; Docker Basics Workshop</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	
+	
+	
+	<meta http-equiv="content-language" content="en-us" />
+	<meta name="generator" content="Hugo 0.74.2" />
+	<link rel="stylesheet" href="https://polarsquad.github.io/docker-basics-workshop/css/index.css">
+	<link rel="apple-touch-icon" href="https://polarsquad.github.io/docker-basics-workshop/apple-touch-icon.png">
+	<link rel="shortcut icon" href="https://polarsquad.github.io/docker-basics-workshop/favicon.ico" type="image/x-icon">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
+	 crossorigin="anonymous">
+</head>
+	<body>
+		<div class="Wrapper">
+			<div class="Container">
+				<div class="Header">
+  <a href="https://polarsquad.github.io/docker-basics-workshop/">
+	<div class="Title center">
+		
+			<img alt="Docker Basics Workshop Logo" src="https://polarsquad.github.io/docker-basics-workshop/290x132_PolarSquad_logo.png" height="140" />
+		
+		<span class="text">Docker Basics Workshop</span>
+		<span class="subtext"></span>
+	</div>
+  </a>
+</div>
+
+				<div class="Content-wrapper">
+					<div class="Sidebar">
+	<div class="Menu">
+		<div class="item">
+			<a href="https://polarsquad.github.io/docker-basics-workshop/">Home</a>
+		</div>
+		
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/02-preparation/">Preparation</a>
+				</div>
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/03-running-your-first-app/">Running your first Docker app</a>
+				</div>
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/04-managing-containers/">Managing Docker containers</a>
+				</div>
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/05-building-your-first-app/">Building your first Docker app</a>
+				</div>
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/06-publishing-images/">Publishing a Docker image</a>
+				</div>
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/07-volumes/">Mounting files</a>
+				</div>
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/08-docker-networking/">Docker networking</a>
+				</div>
+			
+		
+			
+				<div class="item">
+					<a href="https://polarsquad.github.io/docker-basics-workshop/09-docker-compose/">Docker Compose</a>
+				</div>
+			
+		
+			
+		
+			
+		
+			
+		
+	</div>
+</div>
+
+					<div class="Content">
+						
+	<div class="Page" id="">
+		<h1>Building your first Docker app</h1>
+		<p>Having the capability to leverage pre-existing Docker images is awesome,
+but often we want to create our own Docker images.
+In this section, we&rsquo;ll create our own Docker application.</p>
+<h2 id="web-application-example">Web application example</h2>
+<p>Let&rsquo;s prepare a simple <a href="https://www.python.org/">Python</a> web application for containerization.
+First, create a directory for your app.</p>
+<pre><code>$ mkdir ~/myapp
+$ cd ~/myapp
+</code></pre>
+<p>Next, create a Python file named <code>app.py</code> to the directory we just created,
+and write the following contents to it.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#ff79c6">from</span> flask <span style="color:#ff79c6">import</span> Flask
+app <span style="color:#ff79c6">=</span> Flask(__name__)
+
+@app.route(<span style="color:#f1fa8c">&#39;/&#39;</span>)
+<span style="color:#ff79c6">def</span> <span style="color:#50fa7b">hello</span>():
+    <span style="color:#ff79c6">return</span> <span style="color:#f1fa8c">&#34;Hello World!</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#34;</span>
+
+<span style="color:#ff79c6">if</span> __name__ <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#39;__main__&#39;</span>:
+    app<span style="color:#ff79c6">.</span>run(host<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#39;0.0.0.0&#39;</span>, port<span style="color:#ff79c6">=</span><span style="color:#bd93f9">3000</span>)
+</code></pre></div><p>If you have Python and <a href="http://flask.pocoo.org/">Flask</a> installed,
+you can try running the app with command <code>python app.py</code> in the app directory.</p>
+<pre><code>~/myapp $ python app.py
+* Serving Flask app &quot;app&quot; (lazy loading)
+* Environment: production
+  WARNING: Do not use the development server in a production environment.
+  Use a production WSGI server instead.
+* Debug mode: off
+* Running on http://0.0.0.0:3000/ (Press CTRL+C to quit)
+</code></pre>
+<p>Don&rsquo;t worry if it doesn&rsquo;t work just yet.</p>
+<h2 id="dockerfile">Dockerfile</h2>
+<p>Now that we have a very basic app prepared,
+we can package it into a Docker image.
+For that, we need to write a Dockerfile.</p>
+<p>Create a file named <code>Dockerfile</code> in the directory we created earlier.
+In that file, add the following contents.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#ff79c6">FROM</span><span style="color:#f1fa8c"> ubuntu:18.04</span>
+<span style="color:#ff79c6">WORKDIR</span><span style="color:#f1fa8c"> /opt/myapp</span>
+<span style="color:#ff79c6">COPY</span> app.py .
+<span style="color:#ff79c6">RUN</span> apt-get update
+<span style="color:#ff79c6">RUN</span> apt-get install -y python python-pip
+<span style="color:#ff79c6">RUN</span> pip install Flask
+<span style="color:#ff79c6">CMD</span> [<span style="color:#f1fa8c">&#34;python&#34;</span>, <span style="color:#f1fa8c">&#34;app.py&#34;</span>]
+</code></pre></div><p>Each line in this file is an instruction for Docker image builder.
+The first word of the line is a command,
+and the rest of the words are parameters for that command.
+Here&rsquo;s what they do.</p>
+<ul>
+<li><code>FROM</code> describes the image to build our image on.
+In this case, we&rsquo;re going to use a plain Ubuntu image as the base image.</li>
+<li><code>WORKDIR</code> sets the working directory in the image</li>
+<li><code>COPY</code> copies our Python file from our host directory <code>~/myapp</code> to the image.</li>
+<li><code>RUN</code> runs a Linux program inside the image.
+In this case, we install Python and PIP, a package manager for Python,
+and then install the app dependencies using PIP.</li>
+<li><code>CMD</code> sets <code>python app.py</code> to be the default command, when we run the container.</li>
+</ul>
+<h2 id="build-from-dockerfile">Build from Dockerfile</h2>
+<p>Our Docker image is ready for build! Let&rsquo;s use <code>docker build</code> to do that.</p>
+<pre><code>~/myapp $ docker build -t myapp .
+</code></pre>
+<p>Using the option <code>-t</code>, we can specify a name for our Docker image similar to <code>ubuntu:18.04</code> and <code>nginx</code>.
+In Docker, the name is called a tag. The same image can have multiple tags.</p>
+<p>The positional parameter specifies the context for the Docker build,
+i.e. the path where all the resources for the Docker image can be found.
+In this case, we use the <code>~/myapp</code> as the context directory.</p>
+<p>After the build, we should now have a Docker image named <code>myapp</code>.</p>
+<pre><code>$ docker images myapp
+REPOSITORY  TAG        IMAGE ID         CREATED           SIZE
+pyapp       latest     5ebae78df742     1 minute ago      455MB
+</code></pre>
+<p>Let&rsquo;s smoke test it!
+The app opens port 3000, so we&rsquo;ll need to set a forwarding rule to that port.</p>
+<pre><code>$ docker run --rm -d --name myapp -p 3000:3000 myapp
+$ curl http://localhost:3000/
+Hello World!
+$ docker stop myapp
+</code></pre>
+<p>We now have our very first Docker app ready! Awesome!</p>
+<h2 id="improving-our-docker-image">Improving our Docker image</h2>
+<p>Even though the Docker image works,
+there&rsquo;s a few improvements that are worth making.</p>
+<h3 id="caching">Caching</h3>
+<p>Docker caches each instruction and only re-runs them when they&rsquo;re likely to cause a change.
+For example, <code>RUN</code> instructions are re-run when the command is changed,
+and <code>COPY</code> instructions are rerun when the source file changes.</p>
+<p>Additionally, when an instruction needs to be ran again,
+all the instructions that follow will need to be run as well.
+For example, if we change <code>app.py</code> contents and rebuild the image,
+<code>apt-get</code> and <code>pip</code> will be run again.</p>
+<p>We can improve the caching by moving the <code>COPY</code> instruction to the bottom of the file.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#ff79c6">FROM</span><span style="color:#f1fa8c"> ubuntu:18.04</span>
+<span style="color:#ff79c6">WORKDIR</span><span style="color:#f1fa8c"> /opt/myapp</span>
+<span style="color:#ff79c6">RUN</span> apt-get update
+<span style="color:#ff79c6">RUN</span> apt-get install -y python python-pip
+<span style="color:#ff79c6">RUN</span> pip install Flask
+<span style="color:#ff79c6">CMD</span> [<span style="color:#f1fa8c">&#34;python&#34;</span>, <span style="color:#f1fa8c">&#34;app.py&#34;</span>]
+<span style="color:#ff79c6">COPY</span> app.py .
+</code></pre></div><h3 id="cleaning-up">Cleaning up</h3>
+<p>Have a look at the size of the Docker image.</p>
+<pre><code>$ docker images myapp
+REPOSITORY  TAG        IMAGE ID         CREATED           SIZE
+pyapp       latest     5ebae78df742     1 minute ago      455MB
+</code></pre>
+<p>Let&rsquo;s see if we can reduce the size by removing some of the cache files and unused packages.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#ff79c6">FROM</span><span style="color:#f1fa8c"> ubuntu:18.04</span>
+<span style="color:#ff79c6">WORKDIR</span><span style="color:#f1fa8c"> /opt/myapp</span>
+<span style="color:#ff79c6">RUN</span> apt-get update
+<span style="color:#ff79c6">RUN</span> apt-get install -y python python-pip
+<span style="color:#ff79c6">RUN</span> pip install --no-cache Flask
+<span style="color:#ff79c6">RUN</span> apt-get remove -y python-pip
+<span style="color:#ff79c6">RUN</span> apt-get autoremove -y
+<span style="color:#ff79c6">RUN</span> rm -rf /var/lib/apt/lists/*
+<span style="color:#ff79c6">CMD</span> [<span style="color:#f1fa8c">&#34;python&#34;</span>, <span style="color:#f1fa8c">&#34;app.py&#34;</span>]
+<span style="color:#ff79c6">COPY</span> app.py .
+</code></pre></div><p>Now let&rsquo;s have a look at that image size again&hellip;</p>
+<pre><code>~/myapp $ docker build -t myapp .
+~/myapp $ docker images myapp
+REPOSITORY   TAG       IMAGE ID        CREATED          SIZE
+myapp        latest    afc654b35aad    30 seconds ago   457MB
+</code></pre>
+<p>Huh?! The image size is actually WORSE!</p>
+<p>There&rsquo;s an explanation for this in the feature that supports the instruction caching: layers.
+Each instruction creates a new layer of files.
+When the image is built, the layers are stacked together to represent the final container file system.
+Therefore, when we create an instruction to remove files,
+it will just create a layer with those files missing,
+but it will not remove them from the previously created layer.</p>
+<p>We can view these layers using <code>docker history</code>.</p>
+<pre><code>$ docker history myapp
+IMAGE               CREATED             CREATED BY                                      SIZE  
+afc654b35aad        5 minutes ago       /bin/sh -c #(nop) COPY file:7348164eda8bae0d…   169B  
+01a4ccfecf8f        5 minutes ago       /bin/sh -c #(nop)  CMD [&quot;python&quot; &quot;app.py&quot;]      0B    
+ea344c5663c7        5 minutes ago       /bin/sh -c rm -rf /var/lib/apt/lists/*          0B    
+64764d84582c        5 minutes ago       /bin/sh -c apt-get autoremove -y                1.18MB
+abd52a23b584        5 minutes ago       /bin/sh -c apt-get remove -y python-pip         1.29MB
+5ff8caeb97bc        5 minutes ago       /bin/sh -c pip install --no-cache Flask         4.02MB
+a05eb9c23c4c        5 minutes ago       /bin/sh -c apt-get install -y python python-…   339MB 
+2e52e5d4b94f        5 minutes ago       /bin/sh -c apt-get update                       24.5MB
+38bb6c7c3d6c        10 minutes ago      /bin/sh -c #(nop) WORKDIR /opt/myapp            0B    
+20bb25d32758        2 hours ago         /bin/sh -c #(nop)  CMD [&quot;/bin/bash&quot;]            0B    
+&lt;missing&gt;           2 hours ago         /bin/sh -c mkdir -p /run/systemd &amp;&amp; echo 'do…   7B    
+&lt;missing&gt;           2 hours ago         /bin/sh -c rm -rf /var/lib/apt/lists/*          0B    
+&lt;missing&gt;           2 hours ago         /bin/sh -c set -xe   &amp;&amp; echo '#!/bin/sh' &gt; /…   745B  
+&lt;missing&gt;           2 hours ago         /bin/sh -c #(nop) ADD file:38a199e521f5e9007…   87.5MB
+</code></pre>
+<p>How do we get rid of those files then?
+The solution is to run all of the steps within a single instruction to create just one layer.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#ff79c6">FROM</span><span style="color:#f1fa8c"> ubuntu:18.04</span>
+<span style="color:#ff79c6">WORKDIR</span><span style="color:#f1fa8c"> /opt/myapp</span>
+<span style="color:#ff79c6">RUN</span> apt-get update <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    apt-get install -y python python-pip <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    pip install --no-cache Flask <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    apt-get remove -y python-pip <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    apt-get autoremove -y <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    rm -rf /var/lib/apt/lists/*
+<span style="color:#ff79c6">CMD</span> [<span style="color:#f1fa8c">&#34;python&#34;</span>, <span style="color:#f1fa8c">&#34;app.py&#34;</span>]
+<span style="color:#ff79c6">COPY</span> app.py .
+</code></pre></div><p>Let&rsquo;s have a look at the history now.</p>
+<pre><code>$ docker history myapp
+IMAGE               CREATED             CREATED BY                                      SIZE  
+aa64ac6a505c        5 minutes ago       /bin/sh -c #(nop) COPY file:7348164eda8bae0d…   169B  
+b647886bd2bb        5 minutes ago       /bin/sh -c #(nop)  CMD [&quot;python&quot; &quot;app.py&quot;]      0B    
+8ac22646ce40        5 minutes ago       /bin/sh -c apt-get update &amp;&amp;     apt-get ins…   42.7MB
+38bb6c7c3d6c        10 minutes ago      /bin/sh -c #(nop) WORKDIR /opt/myapp            0B    
+20bb25d32758        2 hours ago         /bin/sh -c #(nop)  CMD [&quot;/bin/bash&quot;]            0B    
+&lt;missing&gt;           2 hours ago         /bin/sh -c mkdir -p /run/systemd &amp;&amp; echo 'do…   7B    
+&lt;missing&gt;           2 hours ago         /bin/sh -c rm -rf /var/lib/apt/lists/*          0B    
+&lt;missing&gt;           2 hours ago         /bin/sh -c set -xe   &amp;&amp; echo '#!/bin/sh' &gt; /…   745B  
+&lt;missing&gt;           2 hours ago         /bin/sh -c #(nop) ADD file:38a199e521f5e9007…   87.5MB
+</code></pre>
+<p>There&rsquo;s now less layers, and the huge +300 MB layer is gone. Let&rsquo;s check the full image size now.</p>
+<pre><code>$ docker images myapp
+REPOSITORY    TAG       IMAGE ID       CREATED           SIZE
+myapp         latest    aa64ac6a505c   30 seconds ago    130MB
+</code></pre>
+<p>We managed reduce the size to about 30% of what we had earlier. Not bad!</p>
+<h3 id="alternative-base-images">Alternative base images</h3>
+<p>Using Ubuntu as the base image might not always be the most lightweight option.
+You might also want to look into alternative base images such as <a href="https://hub.docker.com/_/debian">Debian slim</a>
+or <a href="https://hub.docker.com/_/alpine">Alpine</a>.
+There&rsquo;s also <a href="https://hub.docker.com/_/python">a pre-made image for Python</a>,
+which includes Python and some Python related tools like PIP pre-installed.</p>
+<p>Here&rsquo;s a Dockerfile that&rsquo;s based on Alpine.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#ff79c6">FROM</span><span style="color:#f1fa8c"> alpine</span>
+<span style="color:#ff79c6">WORKDIR</span><span style="color:#f1fa8c"> /opt/myapp</span>
+<span style="color:#ff79c6">RUN</span> apk update <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    apk add python py-pip <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    pip install --no-cache Flask <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    apk del py-pip
+<span style="color:#ff79c6">CMD</span> [<span style="color:#f1fa8c">&#34;python&#34;</span>, <span style="color:#f1fa8c">&#34;app.py&#34;</span>]
+<span style="color:#ff79c6">COPY</span> app.py .
+</code></pre></div><p>Let&rsquo;s build it with another tag and compare it to the Ubuntu based image.</p>
+<pre><code>~/myapp $ docker build -t myapp:alpine .
+~/myapp $ docker images myapp
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+myapp               alpine              494f4abc243c        39 seconds ago      48.6MB
+myapp               latest              aa64ac6a505c        10 minutes ago      130MB
+</code></pre>
+<p>Just under 50 MB, which is roughly 10% of what we had originally. Nice!</p>
+<h3 id="running-as-non-root">Running as non-root</h3>
+<p>By default, all containers run as root by default.
+Even though there&rsquo;s plenty of isolation between the container and the host system,
+it&rsquo;s a good practice to use a custom user in containers whenever possible.
+Optimally, the custom user is defined and set in the Dockerfile.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#ff79c6">FROM</span><span style="color:#f1fa8c"> ubuntu:18.04</span>
+<span style="color:#ff79c6">WORKDIR</span><span style="color:#f1fa8c"> /opt/myapp</span>
+<span style="color:#ff79c6">RUN</span> apt-get update <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    apt-get install -y python python-pip <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    pip install --no-cache Flask <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    apt-get remove -y python-pip <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    apt-get autoremove -y <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    rm -rf /var/lib/apt/lists/*
+<span style="color:#ff79c6">RUN</span> groupadd -g <span style="color:#bd93f9">999</span> appuser <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    useradd -r -u <span style="color:#bd93f9">999</span> -g appuser appuser
+<span style="color:#ff79c6">USER</span><span style="color:#f1fa8c"> appuser:appuser</span>
+<span style="color:#ff79c6">CMD</span> [<span style="color:#f1fa8c">&#34;python&#34;</span>, <span style="color:#f1fa8c">&#34;app.py&#34;</span>]
+<span style="color:#ff79c6">COPY</span> app.py .
+</code></pre></div><p>We can also set the user and group when we run the container using <code>docker run</code> command&rsquo;s <code>-u</code> option.</p>
+<h2 id="freestyle-experiment-with-your-own-dockerfile">Freestyle: Experiment with your own Dockerfile</h2>
+<p>Create your own Dockerfile or extend one of the Dockerfiles shown earlier.</p>
+</div>
+
+						<div class="Footer">
+	<p>Made with ❤️ for Developers by Polar Squad. Content on this site is licensed under a Creative Commons license</p>
+</div>
+<script src="https://polarsquad.github.io/docker-basics-workshop/js/index.js"></script>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-xxxx-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+					</div>
+				</div>
+		</div>
+	</body>
+</html>
